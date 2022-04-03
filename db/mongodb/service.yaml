@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-headless
+  namespace: db--mongodb
+spec:
+  type: ClusterIP
+  sessionAffinity: None
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+  - name: mongodb
+    port: 27017
+    targetPort: 27017
+  selector:
+    app: mongodb
