@@ -1,0 +1,25 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: repo-refresh
+  namespace: apps--grep
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: repo-refresh
+            image: bitnami/git:latest
+            volumeMounts:
+            - name: gitrepo
+              mountPath: /shared/metacpan_git
+            command: ['sh', '-c', 'cd /shared/metacpan_git && git pull origin master']
+            imagePullPolicy: IfNotPresent
+          volumes:
+            - name: gitrepo
+              persistentVolumeClaim:
+                claimName: gitrepo
+          restartPolicy: OnFailure

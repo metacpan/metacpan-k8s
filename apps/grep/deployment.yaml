@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grep
+  labels:
+    app: grep
+  namespace: apps--grep
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grep
+  template:
+    metadata:
+      labels:
+        app: grep
+    spec:
+      initContainers:
+      - name: repo-seed
+        image: bitnami/git:latest
+        volumeMounts:
+        - name: gitrepo
+          mountPath: /shared/metacpan_git
+        command: ['sh', '-c', 'git clone https://github.com/metacpan/metacpan-cpan-extracted.git /shared/metacpan_git']
+      containers:
+      - name: web
+        image: metacpan/metacpan-grep-front-end:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: GREP_SITE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: grep
+              key: siteport
+        - name: GREP_PLACKUP_SERVER_ARGS
+          valueFrom:
+            configMapKeyRef:
+              name: grep
+              key: plackupserverargs
+        volumeMounts:
+        - name: gitrepo
+          mountPath: /shared/metacpan_git
+          readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: grep
+        - name: gitrepo
+          persistentVolumeClaim:
+            claimName: gitrepo
