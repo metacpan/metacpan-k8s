@@ -23,3 +23,20 @@ patchesStrategicMerge:
                 apiTokenSecretRef:
                   name: cloudflare-api-token-secret
                   key: api-token
+  - |-
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt-production
+      namespace: cert-manager
+    spec:
+      acme:
+        email: noc@metacpan.org
+        solvers:
+          - selector: {}
+            dns01:
+              cloudflare:
+                email: noc@metacpan.org
+                apiTokenSecretRef:
+                  name: cloudflare-api-token-secret
+                  key: api-token

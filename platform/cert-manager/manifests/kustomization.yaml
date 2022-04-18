@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./selfsigned.yaml
   - ./le_staging.yaml
+  - ./le_production.yaml
