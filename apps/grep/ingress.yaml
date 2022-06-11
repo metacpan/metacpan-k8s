@@ -10,9 +10,20 @@ spec:
   tls:
     - hosts:
       - grep.hc.metacpan.org
+      - grep.metacpan.org
       secretName: grep-tls
   rules:
     - host: grep.hc.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: grep
+                port:
+                  number: 80
+    - host: grep.metacpan.org
       http:
         paths:
           - pathType: Prefix
