@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web
+  namespace: apps--web
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+spec:
+  tls:
+    - hosts:
+      - web.hc.metacpan.org
+      - www.metacpan.org
+      - metacpan.org
+      secretName: web-tls
+  rules:
+    - host: web.hc.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: web
+                port:
+                  number: 80
+    - host: web.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: web
+                port:
+                  number: 80
+    - host: metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: web
+                port:
+                  number: 80
