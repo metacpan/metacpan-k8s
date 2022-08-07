@@ -40,3 +40,11 @@ patchesStrategicMerge:
                 apiTokenSecretRef:
                   name: cloudflare-api-token-secret
                   key: api-token
+patchesJson6902:
+- target:
+    group: apps
+    version: v1
+    kind: Deployment
+    name: cert-manager
+    namespace: "cert-manager"
+  path: patch.yaml
