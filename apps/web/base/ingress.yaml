@@ -24,7 +24,7 @@ spec:
                 name: web
                 port:
                   number: 80
-    - host: web.metacpan.org
+    - host: www.metacpan.org
       http:
         paths:
           - pathType: Prefix
