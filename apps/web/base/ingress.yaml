@@ -1,35 +1,46 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: grep
-  namespace: apps--grep
+  name: web
+  namespace: apps--web
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
     traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
 spec:
   tls:
     - hosts:
-      - grep.hc.metacpan.org
-      - grep.metacpan.org
-      secretName: grep-tls
+      - web.hc.metacpan.org
+      - www.metacpan.org
+      - metacpan.org
+      secretName: web-tls
   rules:
-    - host: grep.hc.metacpan.org
+    - host: web.hc.metacpan.org
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: grep
+                name: web
                 port:
                   number: 80
-    - host: grep.metacpan.org
+    - host: www.metacpan.org
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: grep
+                name: web
+                port:
+                  number: 80
+    - host: metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: web
                 port:
                   number: 80

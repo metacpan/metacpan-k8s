@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: web
+  namespace: apps--web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: metacpan/metacpan-web:latest
+        command: ["plackup"]
+        args: ["--port","5001","-E","production","-s","Gazelle"]
+        ports:
+        - containerPort: 5001
+        volumeMounts:
+        - name: metacpan-web-local
+          mountPath: /metacpan/metacpan_web_local.conf
+      volumes:
+        - name: metacpan-web-local
+          secret:
+            secretName: metacpan-web-local
