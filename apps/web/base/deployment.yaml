@@ -19,6 +19,7 @@ spec:
       containers:
       - name: web
         image: metacpan/metacpan-web:latest
+        imagePullPolicy: Always
         command: ["plackup"]
         args: ["--port","5001","-E","production","-s","Gazelle"]
         ports:
