@@ -17,17 +17,17 @@ spec:
         app: web
     spec:
       containers:
-      - name: web
-        image: metacpan/metacpan-web:latest
-        imagePullPolicy: Always
-        command: ["plackup"]
-        args: ["--port","5001","-E","production","-s","Gazelle"]
-        ports:
-        - containerPort: 5001
-        volumeMounts:
-        - name: metacpan-web-local
-          mountPath: /metacpan-web/metacpan_web_local.conf
-          subPath: metacpan_web_local.conf
+        - name: web
+          image: metacpan/metacpan-web:latest
+          imagePullPolicy: Always
+          command: ["plackup"]
+          args: ["--port", "5001", "-E", "production", "-s", "Gazelle"]
+          ports:
+            - containerPort: 5001
+          volumeMounts:
+            - name: metacpan-web-local
+              mountPath: /metacpan-web/metacpan_web_local.conf
+              subPath: metacpan_web_local.conf
       volumes:
         - name: metacpan-web-local
           secret:
