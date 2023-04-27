@@ -19,6 +19,7 @@ spec:
       initContainers:
       - name: repo-seed
         image: bitnami/git:latest
+        imagePullPolicy: Always
         volumeMounts:
         - name: gitrepo
           mountPath: /shared/metacpan_git
@@ -26,6 +27,7 @@ spec:
       containers:
       - name: web
         image: metacpan/metacpan-grep-front-end:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:
