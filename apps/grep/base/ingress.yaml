@@ -9,11 +9,11 @@ metadata:
 spec:
   tls:
     - hosts:
-      - grep.hc.metacpan.org
+      - grep.hz.metacpan.org
       - grep.metacpan.org
       secretName: grep-tls
   rules:
-    - host: grep.hc.metacpan.org
+    - host: grep.hz.metacpan.org
       http:
         paths:
           - pathType: Prefix
