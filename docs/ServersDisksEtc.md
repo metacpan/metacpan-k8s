@@ -11,6 +11,8 @@ See https://github.com/metacpan/network-infrastructure/pull/114
 
 Use the web interface to create a volume and attach it to the server
 
+We will want the same on ALL Servers
+
 ### Find the name:
 
 ```sh
@@ -30,22 +32,24 @@ hz-mc-01 /etc/systemd/system # blkid | grep sdb
 
 ### Get the filename to use for the mount point you want
 ```sh
-hz-mc-01 /etc/systemd/system # systemd-escape -p --suffix=mount /mnt/grep_disk/
-mnt-grep_disk.mount
+hz-mc-01 /etc/systemd/system # systemd-escape -p --suffix=mount /mnt/cluster_data/
+mnt-cluster_data.mount
 ```
 
 ### Create system file
 
-`/etc/systemd/system/${filename}` should look like this
+`/etc/systemd/system/${filename}` eg. `/etc/systemd/system/mnt-cluster_data.mount`
+
+Which looks like this:
 
 ```
 [Unit]
-Description=Grep Data
+Description=Cluster Data Volume
 Before=local-fs.target
 
 [Mount]
 What=/dev/disk/by-uuid/51c7d64a-0b23-48ad-802b-373e9915019c
-Where=/mnt/grep_disk
+Where=/mnt/cluster_data
 Type=ext4
 
 [Install]
@@ -56,12 +60,12 @@ WantedBy=local-fs.targe
 
 ```
 systemctl daemon-reload
-systemctl start mnt-grep_disk.mount
+systemctl start mnt-cluster_data.mount
 ```
 
 ## Changing volume size
 
-Update in Hetzner web ui.
+Update in Hetzner web ui and then run...
 
 ```
 resize2fs /dev/disk/by-uuid/51c7d64a-0b23-48ad-802b-373e9915019c
