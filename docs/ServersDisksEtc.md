@@ -9,26 +9,12 @@ See https://github.com/metacpan/network-infrastructure/pull/114
 
 ## Hetzner adding disk volumes
 
-Use the web interface to create a volume and attach it to the server
+Use the web interface to create a volume and attach it to the server,
+note the `/dev/disk/by-id/scsi-0HC_Volume_.......`
 
-We will want the same on ALL Servers
+We will want the same on ALL Servers.
 
-### Find the name:
-
-```sh
-hz-mc-01 /etc/systemd/system # lsblk | grep disk
-sda       8:0    0 19.1G  0 disk
-sdb       8:16   0   10G  0 disk
-```
-
-So we now know it is `sdb` (same size as the disk volume created)
-
-###  Then get the `uuid` of the mount:
-
-```sh
-hz-mc-01 /etc/systemd/system # blkid | grep sdb
-/dev/sdb: UUID="51c7d64a-0b23-48ad-802b-373e9915019c" BLOCK_SIZE="4096" TYPE="ext4"
-```
+### Find the name 
 
 ### Get the filename to use for the mount point you want
 ```sh
@@ -48,7 +34,7 @@ Description=Cluster Data Volume
 Before=local-fs.target
 
 [Mount]
-What=/dev/disk/by-uuid/51c7d64a-0b23-48ad-802b-373e9915019c
+What=/dev/disk/by-id/scsi-0HC_Volume_......
 Where=/mnt/cluster_data
 Type=ext4
 
