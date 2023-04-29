@@ -9,12 +9,12 @@ metadata:
 spec:
   tls:
     - hosts:
-      - web.hc.metacpan.org
+      - web.hz.metacpan.org
       - www.metacpan.org
       - metacpan.org
       secretName: web-tls
   rules:
-    - host: web.hc.metacpan.org
+    - host: web.hz.metacpan.org
       http:
         paths:
           - pathType: Prefix
