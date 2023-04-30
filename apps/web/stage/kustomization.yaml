@@ -18,7 +18,7 @@ patchesStrategicMerge:
     spec:
       tls:
         - hosts:
-          - web.stage.hc.metacpan.org
+          - web.stage.hz.metacpan.org
           - www.stage.metacpan.org
           - stage.metacpan.org
           secretName: web-tls
@@ -26,13 +26,13 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/rules/0/host
-        value: web.stage.hc.metacpan.org
+        value: web.stage.hz.metacpan.org
       - op: replace
         path: /spec/rules/1/host
-        value: www.stage.hc.metacpan.org
+        value: www.stage.hz.metacpan.org
       - op: replace
         path: /spec/rules/2/host
-        value: stage.hc.metacpan.org
+        value: stage.hz.metacpan.org
     target:
       group: networking.k8s.io
       version: v1

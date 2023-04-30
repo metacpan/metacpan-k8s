@@ -11,12 +11,12 @@ level as the `base/` directory. For example:
 ```ascii
 apps/web
 ├── base
-├── hc
+├── hz
 └── stage
 ```
 
 - `base/` the MetaCPAN web application manifests
-- `hc/` kustomization manifests to apply to web manifests for the `hc`
+- `hz/` kustomization manifests to apply to web manifests for the `hc`
   production environment
 - `stage/` kustomization manifests to apply to web manifests for the `stage` environment
 
