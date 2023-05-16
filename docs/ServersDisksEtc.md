@@ -31,7 +31,7 @@ Which looks like this:
 ```
 [Unit]
 Description=Cluster Data Volume
-Before=local-fs.target
+Before=k3s.service
 
 [Mount]
 What=/dev/disk/by-id/scsi-0HC_Volume_......
@@ -39,13 +39,14 @@ Where=/mnt/cluster_data
 Type=ext4
 
 [Install]
-WantedBy=local-fs.targe
+WantedBy=multi-user.target
 ```
 
-### Update systemd and start the service which will perform the mount
+### Update systemd, enable (so it will start on reboot) and start the service which will perform the mount
 
 ```
 systemctl daemon-reload
+systemctl enable mnt-cluster_data.mount
 systemctl start mnt-cluster_data.mount
 ```
 
