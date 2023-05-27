@@ -11,14 +11,22 @@ level as the `base/` directory. For example:
 ```ascii
 apps/web
 ├── base
-├── hz
-└── stage
+├── environments
+│   ├── prod
+│   └── stage
+└── hz
 ```
 
 - `base/` the MetaCPAN web application manifests
-- `hz/` kustomization manifests to apply to web manifests for the `hc`
-  production environment
-- `stage/` kustomization manifests to apply to web manifests for the `stage` environment
+- `environments` directories for each of the environments an application can
+  exist in
+  - `prod/` kustomization manifests to apply to web manifests for the `production`
+    environment
+  - `stage/` kustomization manifests to apply to web manifests for the `stage` environment
+- `hz/` kustomization and manifests to apply to the `hz` cluster. This includes
+  manifests like sealedsecrets that are specific to the cluster to which they're
+  created. The kustomization file references the `environments` directories
+  deployed to the cluster.
 
 kustomization manifests are patch manifests that alter the `base/` manifests for
 components like URLs, secrets (passwords), and configuration.
