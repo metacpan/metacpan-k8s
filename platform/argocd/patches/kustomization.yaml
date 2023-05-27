@@ -1,0 +1,42 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+resources:
+  - ./namespace.yaml
+  - ./../base/
+patchesStrategicMerge:
+  - |-
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: argocd-cmd-params-cm
+      labels:
+        app.kubernetes.io/name: argocd-cmd-params-cm
+        app.kubernetes.io/part-of: argocd
+    data:
+      server.insecure: "true"
+  - |-
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: argocd-cm
+      labels:
+        app.kubernetes.io/name: argocd-cm
+        app.kubernetes.io/part-of: argocd
+    data:
+      url: https://argocd.hz.metacpan.org
+      dex.config: |
+        connectors:
+          # GitHub example
+          - type: github
+            id: github
+            name: GitHub
+            config:
+              clientID: $argocd-github-secret:clientId
+              clientSecret: $argocd-github-secret:clientSecret
+              orgs:
+              - name: metacpan
+                teams:
+                  - ADMINS
+              loadAllGroups: false
