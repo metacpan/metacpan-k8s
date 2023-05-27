@@ -3,8 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: stage--apps--web
 resources:
-  - ./sealedsecret.yaml
-  - ../base/
+  - ../../base/
 images:
   - name: metacpan/metacpan-web
     newTag: 6796747a21beb1feeed5bb7cc8f52b581299c918
