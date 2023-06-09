@@ -23,7 +23,7 @@ spec:
         volumeMounts:
         - name: gitrepo
           mountPath: /shared/metacpan_git
-        command: ['sh', '-c', 'git clone https://github.com/metacpan/metacpan-cpan-extracted.git /shared/metacpan_git']
+        command: ['sh', '-c', '[ -d /shared/metacpan_git/.git ] || git clone https://github.com/metacpan/metacpan-cpan-extracted.git /shared/metacpan_git']
       containers:
       - name: web
         image: metacpan/metacpan-grep-front-end:latest
