@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
   - ./project.yaml
   - ./stage_sealedsecret.yaml
+  - ./stage_application.yaml
   - ./prod_sealedsecret.yaml
+  - ./prod_application.yaml
   - ../environments/stage/
   - ../environments/prod/
