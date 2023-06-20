@@ -40,3 +40,28 @@ patchesStrategicMerge:
                 teams:
                   - ADMINS
               loadAllGroups: false
+  - |-
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      labels:
+        app.kubernetes.io/name: argocd-rbac-cm
+        app.kubernetes.io/part-of: argocd
+      name: argocd-rbac-cm
+    data:
+      policy.csv: |
+        p, role:org-admin, applications, *, */*, allow
+        p, role:org-admin, clusters, get, *, allow
+        p, role:org-admin, repositories, get, *, allow
+        p, role:org-admin, repositories, create, *, allow
+        p, role:org-admin, repositories, update, *, allow
+        p, role:org-admin, repositories, delete, *, allow
+        p, role:org-admin, projects, get, *, allow
+        p, role:org-admin, projects, create, *, allow
+        p, role:org-admin, projects, update, *, allow
+        p, role:org-admin, projects, delete, *, allow
+        p, role:org-admin, logs, get, *, allow
+        p, role:org-admin, exec, create, */*, allow
+
+        g, metacpan:ADMINS, role:org-admin
+      policy.default: role:readonly

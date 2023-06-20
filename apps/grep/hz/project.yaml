@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: grep
+  namespace: argocd
+spec:
+  # Project description
+  description: Grep MetaCPAN
+
+  sourceRepos:
+  - '*'
+
+  destinations:
+    - namespace: apps--grep
+      server: https://kubernetes.default.svc
+      name: in-cluster

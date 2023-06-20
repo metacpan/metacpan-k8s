@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps--grep
+  namespace: argocd
+spec:
+  project: grep
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: HEAD
+    path: apps/grep/environments/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps--grep

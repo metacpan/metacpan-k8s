@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: web
+  namespace: argocd
+spec:
+  # Project description
+  description: MetaCPAN Web UI
+
+  sourceRepos:
+  - '*'
+
+  destinations:
+    - namespace: apps--web
+      server: https://kubernetes.default.svc
+      name: in-cluster
