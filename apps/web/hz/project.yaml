@@ -10,6 +10,10 @@ spec:
   sourceRepos:
   - '*'
 
+  clusterResourceWhitelist:
+    - group: ''
+      kind: 'Namespace'
+
   destinations:
     - namespace: apps--web
       server: https://kubernetes.default.svc

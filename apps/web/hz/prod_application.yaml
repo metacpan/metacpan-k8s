@@ -7,7 +7,7 @@ spec:
   project: web
   source:
     repoURL: https://github.com/metacpan/metacpan-k8s
-    targetRevision: HEAD
+    targetRevision: main
     path: apps/web/environments/prod
   destination:
     server: https://kubernetes.default.svc
