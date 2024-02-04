@@ -9,8 +9,7 @@ metadata:
 spec:
   tls:
     - hosts:
-      - web.hz.metacpan.org
-      - www.metacpan.org
+        - web.hz.metacpan.org
       secretName: web-tls
   rules:
     - host: web.hz.metacpan.org
@@ -33,21 +32,6 @@ spec:
                 name: web
                 port:
                   number: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: web-bare-domain
-  namespace: apps--web
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
-spec:
-  tls:
-    - hosts:
-      - metacpan.org
-      secretName: web-bare-tls
-  rules:
     - host: metacpan.org
       http:
         paths:
