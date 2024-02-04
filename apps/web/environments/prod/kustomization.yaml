@@ -4,4 +4,4 @@ resources:
 - ../../base/
 images:
 - name: metacpan/metacpan-web
-  newTag: be8bbf9180d08924ad8c739d5e9b9d5a585bf8d9
+  newTag: ec346a9f35a9f2be5bf52768888cdbbf55d1298e
