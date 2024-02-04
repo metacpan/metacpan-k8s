@@ -9,9 +9,7 @@ metadata:
 spec:
   tls:
     - hosts:
-      - web.hz.metacpan.org
-      - www.metacpan.org
-      - metacpan.org
+        - web.hz.metacpan.org
       secretName: web-tls
   rules:
     - host: web.hz.metacpan.org
