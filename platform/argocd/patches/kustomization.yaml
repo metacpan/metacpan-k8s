@@ -1,12 +1,13 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: argocd
 resources:
-  - ./namespace.yaml
-  - ./../base/
-patchesStrategicMerge:
-  - |-
+- ./namespace.yaml
+- ./../base/
+          # GitHub example
+
+patches:
+- patch: |-
     apiVersion: v1
     kind: ConfigMap
     metadata:
@@ -16,7 +17,7 @@ patchesStrategicMerge:
         app.kubernetes.io/part-of: argocd
     data:
       server.insecure: "true"
-  - |-
+- patch: |-
     apiVersion: v1
     kind: ConfigMap
     metadata:
@@ -40,7 +41,7 @@ patchesStrategicMerge:
                 teams:
                   - ADMINS
               loadAllGroups: false
-  - |-
+- patch: |-
     apiVersion: v1
     kind: ConfigMap
     metadata:
