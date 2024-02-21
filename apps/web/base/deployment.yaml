@@ -20,8 +20,18 @@ spec:
         - name: web
           image: metacpan/metacpan-web:latest
           imagePullPolicy: Always
-          command: ["plackup"]
-          args: ["--port", "5001", "-E", "production", "-s", "Gazelle"]
+          command: ["/usr/bin/dumb-init"]
+          args:
+            [
+              "--",
+              "/usr/local/bin/plackup",
+              "--port",
+              "5001",
+              "-E",
+              "production",
+              "-s",
+              "Gazelle",
+            ]
           ports:
             - containerPort: 5001
           volumeMounts:
