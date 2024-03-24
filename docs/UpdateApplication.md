@@ -53,6 +53,7 @@ cd apps/web/environments/prod
 kustomize edit set image "metacpan/metacpan-web:latest" "metacpan/metacpan-web:dfae65b61899cfe8e9e6a8d7d39eb437849e6629"
 git add -u
 git commit -m "Update to latest metacpan-web"
+gh pr create --fill
 ```
 
 Where `dfae65b61899cfe8e9e6a8d7d39eb437849e6629` represents
