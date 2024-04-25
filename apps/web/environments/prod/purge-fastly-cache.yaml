@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: purge-fastly-cache
+  namespace: apps--web
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - image: curlimages/curl:latest
+        name: purge-fastly-cache
+        command:
+        - bash
+        - -c
+        - |-
+         curl -i \
+          -X POST \
+          -H "Fastly-Key: ${FASTLY_API_KEY}" \
+          -H "fastly-soft-purge: 1" \
+          -H "Accept: application/json" \
+          "api.fastly.com/service/${FASTLY_SERVICE_ID}/purge/content_type=text/html"
+        env:
+        - name: FASTLY_SERVICE_ID
+          valueFrom:
+            secretRef:
+              name: fastly-api
+              key: FASTLY_SERVICE_ID
+        - name: FASTLY_API_KEY
+          valueFrom:
+            secretRef:
+              name: fastly-api
+              key: FASTLY_API_KEY_PURGE
+
