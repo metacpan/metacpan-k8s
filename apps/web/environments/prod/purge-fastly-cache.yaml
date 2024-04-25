@@ -15,6 +15,7 @@ spec:
         name: purge-fastly-cache
         args:
         - -i
+        - --fail-with-body
         - -X
         - POST
         - -H
@@ -23,7 +24,7 @@ spec:
         - "fastly-soft-purge: 1"
         - -H
         - "Accept: application/json"
-        - "api.fastly.com/service/$(FASTLY_SERVICE_ID)/purge/content_type=text/html"
+        - "https://api.fastly.com/service/$(FASTLY_SERVICE_ID)/purge/content_type=text/html"
         env:
         - name: FASTLY_SERVICE_ID
           valueFrom:
