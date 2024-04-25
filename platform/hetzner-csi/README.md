@@ -1,0 +1,3 @@
+# Secret source from...
+
+metacpan-credentials/k8s/secrets/hcloud-for-volumes.yaml
