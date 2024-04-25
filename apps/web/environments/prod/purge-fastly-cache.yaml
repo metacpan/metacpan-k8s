@@ -13,16 +13,17 @@ spec:
       containers:
       - image: curlimages/curl:latest
         name: purge-fastly-cache
-        command:
-        - bash
-        - -c
-        - |-
-         curl -i \
-          -X POST \
-          -H "Fastly-Key: ${FASTLY_API_KEY}" \
-          -H "fastly-soft-purge: 1" \
-          -H "Accept: application/json" \
-          "api.fastly.com/service/${FASTLY_SERVICE_ID}/purge/content_type=text/html"
+        args:
+        - -i
+        - -X
+        - POST
+        - -H
+        - "Fastly-Key: $(FASTLY_API_KEY)"
+        - -H
+        - "fastly-soft-purge: 1"
+        - -H
+        - "Accept: application/json"
+        - "api.fastly.com/service/$(FASTLY_SERVICE_ID)/purge/content_type=text/html"
         env:
         - name: FASTLY_SERVICE_ID
           valueFrom:
