@@ -133,7 +133,7 @@ spec:
                 - name
                 type: object
               target:
-                description: |-kind: Cluster
+                description: |-
                   The policy to decide which instance should perform this backup. If empty,
                   it defaults to `cluster.spec.backup.target`.
                   Available options are empty string, `primary` and `prefer-standby`.
