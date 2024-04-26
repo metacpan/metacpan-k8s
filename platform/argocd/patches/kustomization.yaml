@@ -26,10 +26,9 @@ patches:
         app.kubernetes.io/name: argocd-cm
         app.kubernetes.io/part-of: argocd
     data:
+      application.instanceLabelKey: argocd.argoproj.io/instance
       url: https://argocd.hz.metacpan.org
       dex.config: |
-        application:
-          instanceLabelKey: argocd.argoproj.io/instance
         connectors:
           # GitHub example
           - type: github
