@@ -1,0 +1,10 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases: 
+  - ../base/
+namespace: rook-volatile
+resources:
+  # from https://raw.githubusercontent.com/rook/rook/release-1.14/deploy/examples/csi/cephfs/storageclass-ec.yaml
+  - ./storageclass-ec.yaml
+  - ./namespace.yaml
