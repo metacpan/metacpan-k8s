@@ -8,3 +8,5 @@ resources:
   # from https://raw.githubusercontent.com/rook/rook/release-1.14/deploy/examples/csi/cephfs/storageclass-ec.yaml
   - ./storageclass-ec.yaml
   - ./namespace.yaml
+  # from https://raw.githubusercontent.com/rook/rook/release-1.14/deploy/examples/common-second-cluster.yaml
+  - ./common-secondary-cluster.yaml
