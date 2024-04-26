@@ -1,0 +1,8 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Started as https://raw.githubusercontent.com/rook/rook/release-1.14/deploy/examples/cluster-on-pvc.yaml
+  - ./cluster-on-pvc.yaml
+  # from https://raw.githubusercontent.com/rook/rook/release-1.14/deploy/examples/filesystem-ec.yaml
+  - ./filesystem-ec.yaml
