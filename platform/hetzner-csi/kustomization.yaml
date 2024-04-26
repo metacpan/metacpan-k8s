@@ -10,7 +10,14 @@ patchesStrategicMerge:
     kind: StorageClass
     apiVersion: storage.k8s.io/v1
     metadata:
-      name: hcloud-volumes
+      name: hcloud-volume-durable
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "false"
+  - |- 
+    kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+      name: hcloud-volume-volatile
       annotations:
         storageclass.kubernetes.io/is-default-class: "false"
 
