@@ -5,6 +5,10 @@ bases:
   - ../base/
 namespace: rook-ceph-volatile
 resources:
+  # from https://raw.githubusercontent.com/rook/rook/release-1.14/deploy/examples/filesystem-ec.yaml
+  - ./filesystem-ec.yaml
+  # Started as https://raw.githubusercontent.com/rook/rook/release-1.14/deploy/examples/cluster-on-pvc.yaml
+  - ./cluster-on-pvc.yaml
   # from https://raw.githubusercontent.com/rook/rook/release-1.14/deploy/examples/csi/cephfs/storageclass-ec.yaml
   - ./storageclass-ec.yaml
   # from https://raw.githubusercontent.com/rook/rook/release-1.14/deploy/examples/common-second-cluster.yaml
