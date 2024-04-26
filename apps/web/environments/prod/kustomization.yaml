@@ -4,7 +4,7 @@ bases:
 - ../../base/
 images:
 - name: metacpan/metacpan-web
-  newTag: 07d35f7475da60dd4a9d05f3cc42229b27a7ba7b
+  newTag: fc9e406f4ca52e672662244a5eed2ef89cddf6b1
 resources:
 - fastly-api_sealedsecret.yaml
 - purge-fastly-cache.yaml
