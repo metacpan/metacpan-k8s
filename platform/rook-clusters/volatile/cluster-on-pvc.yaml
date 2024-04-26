@@ -9,7 +9,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephCluster
 metadata:
-  name: rook-ceph
+  name: rook-ceph-for-volatile
   namespace: rook-ceph # namespace:cluster
 spec:
   dataDirHostPath: /var/lib/rook
@@ -28,7 +28,7 @@ spec:
     # size appropriate for monitor data will be used.
     volumeClaimTemplate:
       spec:
-        storageClassName: hcloud-volume
+        storageClassName: hcloud-volume-volatile
         resources:
           requests:
             storage: 10Gi
@@ -131,7 +131,7 @@ spec:
                 requests:
                   storage: 10Gi
               # IMPORTANT: Change the storage class depending on your environment
-              storageClassName: hcloud-volume
+              storageClassName: hcloud-volume-volatile
               volumeMode: Block
               accessModes:
                 - ReadWriteOnce

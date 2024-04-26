@@ -28,6 +28,8 @@ patches:
     data:
       url: https://argocd.hz.metacpan.org
       dex.config: |
+        application:
+          instanceLabelKey: argocd.argoproj.io/instance
         connectors:
           # GitHub example
           - type: github
