@@ -9,7 +9,8 @@ spec:
     storageClass: hcloud-volume-durable
     size: 10Gi
   # https://cloudnative-pg.io/documentation/1.23/appendixes/object_stores/#aws-s3
-  barmanObjectStore:
+  backup:
+    barmanObjectStore:
       destinationPath: "s3://mc-postgres-backups/backups"
       s3Credentials:
         accessKeyId:
