@@ -178,27 +178,14 @@ rules:
     resources: ["cephclusters", "cephclusters/finalizers"]
     verbs: ["get", "list", "create", "update", "delete"]
 ---
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: rook-ceph-osd-external
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - nodes
-    verbs:
-      - get
-      - list
----
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: rook-ceph-osd-external
+  name: rook-ceph-osd-volatile
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: rook-ceph-osd-external
+  name: rook-ceph-osd
 subjects:
   - kind: ServiceAccount
     name: rook-ceph-osd
@@ -293,7 +280,7 @@ metadata:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: rook-ceph-mgr-secondary-cluster
+  name: rook-ceph-mgr-volatile
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
