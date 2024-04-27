@@ -19,7 +19,7 @@ spec:
     count: 3
     # The mons should be on unique nodes. For production, at least 3 nodes are recommended for this reason.
     # Mons should only be allowed on the same node for test environments where data loss is acceptable.
-    allowMultiplePerNode: false
+    #allowMultiplePerNode: false
     # A volume claim template can be specified in which case new monitors (and
     # monitors created during fail over) will construct a PVC based on the
     # template for the monitor's primary storage. Changes to the template do not
@@ -34,20 +34,19 @@ spec:
             storage: 10Gi
   cephVersion:
     image: quay.io/ceph/ceph:v18.2.2
-    allowUnsupported: false
-  skipUpgradeChecks: false
-  continueUpgradeAfterChecksEvenIfNotHealthy: false
+    #allowUnsupported: false
+  #skipUpgradeChecks: false
+  #continueUpgradeAfterChecksEvenIfNotHealthy: false
   mgr:
     count: 2
-    allowMultiplePerNode: false
+    #allowMultiplePerNode: false
     modules:
       - name: rook
         enabled: true
   dashboard:
     enabled: true
     ssl: true
-  crashCollector:
-    disable: false
+  crashCollector: {}
   logCollector:
     enabled: true
     periodicity: daily # one of: hourly, daily, weekly, monthly
@@ -68,9 +67,9 @@ spec:
         # Certain storage class in the Cloud are fast
         # Rook can configure the OSD running on PVC to accommodate that by tuning some of the Ceph internal
         # Currently, "managed-premium" has been identified as such
-        tuneFastDeviceClass: false
+        #tuneFastDeviceClass: false
         # whether to encrypt the deviceSet or not
-        encrypted: false
+        #encrypted: false
         # Since the OSDs could end up on any node, an effort needs to be made to spread the OSDs
         # across nodes as much as possible. Unfortunately the pod anti-affinity breaks down
         # as soon as you have more than one OSD per node. The topology spread constraints will
@@ -113,7 +112,7 @@ spec:
                     operator: In
                     values:
                       - rook-ceph-osd-prepare
-        resources:
+        resources: {}
         # These are the OSD daemon limits. For OSD prepare limits, see the separate section below for "prepareosd" resources
         #   limits:
         #     memory: "4Gi"
@@ -164,7 +163,7 @@ spec:
         # Scheduler name for OSD pod placement
         # schedulerName: osd-scheduler
     # when onlyApplyOSDPlacement is false, will merge both placement.All() and storageClassDeviceSets.Placement.
-    onlyApplyOSDPlacement: false
+    #onlyApplyOSDPlacement: false
   resources:
   #  prepareosd:
   #    requests:
@@ -179,7 +178,7 @@ spec:
   disruptionManagement:
     managePodBudgets: true
     osdMaintenanceTimeout: 30
-    pgHealthCheckTimeout: 0
+    #pgHealthCheckTimeout: 0
   # security oriented settings
   # security:
   # Settings to enable key rotation for KEK(Key Encryption Key).
