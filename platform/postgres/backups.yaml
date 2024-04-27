@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: scheduled-backup-s3
+  namespace: pg
+spec:
+  # https://cloudnative-pg.io/documentation/1.23/backup/#scheduled-backups
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: self
+  method: barmanObjectStore
+  cluster:
+    name: pg
