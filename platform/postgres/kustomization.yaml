@@ -4,4 +4,7 @@ kind: Kustomization
 resources:
   # https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.23/releases/cnpg-1.23.0.yaml
   - ./cnpg-1.23.0.yaml
-
+  - ./namespace.yaml
+  - ./sealedsecret.yaml
+  - ./cluster.yaml
+  

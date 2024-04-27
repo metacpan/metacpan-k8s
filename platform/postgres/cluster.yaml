@@ -1,0 +1,22 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster
+  namespace: pg
+spec:
+  instances: 3
+  storage:
+    storageClass: hcloud-volume-durable
+    size: 10Gi
+  # https://cloudnative-pg.io/documentation/1.23/appendixes/object_stores/#aws-s3
+  barmanObjectStore:
+      destinationPath: "s3://mc-postgres-backups/backups"
+      s3Credentials:
+        accessKeyId:
+          name: aws-creds
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: aws-creds
+          key: ACCESS_SECRET_KEY
+    retentionPolicy: "30d"
+
