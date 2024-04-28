@@ -1,0 +1,48 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ./sealedsecret.yaml
+- ./../base/
+- ./../manifests/
+patches:
+- path: patch.yaml
+  target:
+    group: apps
+    kind: Deployment
+    name: cert-manager
+    namespace: cert-manager
+    version: v1
+- patch: |-
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt-staging
+      namespace: cert-manager
+    spec:
+      acme:
+        email: noc@metacpan.org
+        solvers:
+          - selector: {}
+            dns01:
+              cloudflare:
+                email: noc@metacpan.org
+                apiTokenSecretRef:
+                  name: cloudflare-api-token-secret
+                  key: api-token
+- patch: |-
+    apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    metadata:
+      name: letsencrypt-production
+      namespace: cert-manager
+    spec:
+      acme:
+        email: noc@metacpan.org
+        solvers:
+          - selector: {}
+            dns01:
+              cloudflare:
+                email: noc@metacpan.org
+                apiTokenSecretRef:
+                  name: cloudflare-api-token-secret
+                  key: api-token
