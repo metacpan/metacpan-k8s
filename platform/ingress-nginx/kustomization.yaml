@@ -16,3 +16,11 @@ patchesStrategicMerge:
         service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
       name: ingress-nginx-controller
       namespace: ingress-nginx
+  - |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: ingress-nginx-controller
+      namespace: ingress-nginx
+    spec:
+      replicas: 3
