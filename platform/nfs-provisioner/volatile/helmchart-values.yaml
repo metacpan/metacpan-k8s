@@ -1,0 +1,8 @@
+persistence:
+  enabled: true
+  storageClass: do-block-storage
+  size: 100G
+storageClass:
+  name: nfs-volatile
+  reclaimPolicy: Delete
+
