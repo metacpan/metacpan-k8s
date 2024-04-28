@@ -5,8 +5,8 @@ metadata:
   namespace: apps--web
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
-    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
         - web.do.metacpan.org
