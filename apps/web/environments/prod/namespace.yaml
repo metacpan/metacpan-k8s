@@ -2,6 +2,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  labels:
-    kubernetes.io/metadata.name: apps--web
   name: apps--web

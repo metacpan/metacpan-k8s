@@ -5,7 +5,6 @@ metadata:
   name: web
   labels:
     app: web
-  namespace: apps--web
 spec:
   replicas: 3
   selector:
