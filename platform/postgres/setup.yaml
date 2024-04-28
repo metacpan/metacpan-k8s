@@ -1,0 +1,12 @@
+apiVersion: databases.digitalocean.com/v1alpha1
+kind: DatabaseCluster
+metadata:
+  name: mc-db
+  namespace: mc-pg
+spec:
+  engine: pg
+  name: mc-db
+  version: '16'
+  numNodes: 1
+  size: db-s-1vcpu-1gb
+  region: fra1
