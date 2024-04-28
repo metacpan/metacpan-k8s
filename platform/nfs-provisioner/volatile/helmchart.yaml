@@ -1,0 +1,10 @@
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: nfs-provisioner-volatile
+name: nfs-server-provisioner
+repo: https://kubernetes-sigs.github.io/nfs-ganesha-server-and-external-provisioner/
+version: 1.8.0
+releaseName: nfs-provisioner-volatile
+namespace: nfs-provisioner-volatile
+valuesFile: ./helmchart-values.yaml
