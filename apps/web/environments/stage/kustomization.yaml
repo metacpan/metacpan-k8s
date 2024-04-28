@@ -1,39 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: stage--apps--web
-resources:
+bases:
 - ../../base/
+resources:
+- stage_sealedsecret.yaml
+- ingress.yaml
 images:
 - name: metacpan/metacpan-web
   newTag: 6796747a21beb1feeed5bb7cc8f52b581299c918
-patchesStrategicMerge:
-- |-
-  apiVersion: networking.k8s.io/v1
-  kind: Ingress
-  metadata:
-    name: web
-    namespace: apps--web
-  spec:
-    tls:
-      - hosts:
-        - web.stage.hz.metacpan.org
-        - www.stage.metacpan.org
-        - stage.metacpan.org
-        secretName: web-tls
-patches:
-- patch: |-
-    - op: replace
-      path: /spec/rules/0/host
-      value: web.stage.hz.metacpan.org
-    - op: replace
-      path: /spec/rules/1/host
-      value: www.stage.hz.metacpan.org
-    - op: replace
-      path: /spec/rules/2/host
-      value: stage.hz.metacpan.org
-  target:
-    group: networking.k8s.io
-    kind: Ingress
-    name: web
-    namespace: apps--web
-    version: v1
+

@@ -8,3 +8,4 @@ images:
 resources:
 - fastly-api_sealedsecret.yaml
 - purge-fastly-cache.yaml
+- prod_sealedsecret.yaml
