@@ -29,25 +29,14 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
-        env:
-        - name: GREP_SITE_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: grep
-              key: siteport
-        - name: GREP_PLACKUP_SERVER_ARGS
-          valueFrom:
-            configMapKeyRef:
-              name: grep
-              key: plackupserverargs
+        envFrom:
+        - configMapRef:
+            name: grep
         volumeMounts:
         - name: gitrepo
           mountPath: /shared/metacpan_git
           readOnly: true
       volumes:
-        - name: config
-          configMap:
-            name: grep
         - name: gitrepo
           persistentVolumeClaim:
             claimName: gitrepo

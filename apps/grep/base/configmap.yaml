@@ -4,5 +4,5 @@ kind: ConfigMap
 metadata:
   name: grep
 data:
-  siteport: "5005"
-  plackupserverargs: "-E production-docker"
+  GREP_SITE_PORT: "5005"
+  GREP_PLACKUP_SERVER_ARGS: "-E production-docker"

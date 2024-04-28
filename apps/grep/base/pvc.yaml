@@ -4,8 +4,8 @@ metadata:
   name: gitrepo
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: do
+    - ReadWriteMany
+  storageClassName: nfs-volatile
   resources:
     requests:
-      storage: 21Gi
+      storage: 35Gi
