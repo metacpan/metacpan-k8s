@@ -1,5 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: apps--web
 bases:
 - ../../base/
 images:
@@ -9,3 +10,4 @@ resources:
 - fastly-api_sealedsecret.yaml
 - purge-fastly-cache.yaml
 - prod_sealedsecret.yaml
+- ./namespace.yaml

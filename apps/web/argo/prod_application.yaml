@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: stage--apps--web
+  name: apps--web
   namespace: argocd
 spec:
   project: web
   source:
     repoURL: https://github.com/metacpan/metacpan-k8s
-    targetRevision: main
-    path: apps/web/environments/stage
+    targetRevision: digitalocean-main
+    path: apps/web/environments/prod
   destination:
     server: https://kubernetes.default.svc
-    namespace: stage--apps--web
+    namespace: apps--web
