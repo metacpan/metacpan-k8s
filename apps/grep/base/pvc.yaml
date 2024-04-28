@@ -2,11 +2,10 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: gitrepo
-  namespace: apps--grep
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
+    - ReadWriteMany
+  storageClassName: nfs-volatile
   resources:
     requests:
-      storage: 21Gi
+      storage: 35Gi

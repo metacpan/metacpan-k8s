@@ -5,7 +5,5 @@ resources:
   - ./configmap.yaml
   - ./cronjob.yaml
   - ./deployment.yaml
-  - ./ingress.yaml
-  - ./namespace.yaml
   - ./pvc.yaml
   - ./service.yaml
