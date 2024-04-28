@@ -1,0 +1,6 @@
+hostname: rancher.do.metacpan.org
+ingress:
+  tls:
+    source: secret
+replicas: 1
+bootstrapPassword: unbeaten-SUPPOSE-van
