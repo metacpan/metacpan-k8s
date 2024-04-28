@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./project.yaml
   - ./prod_application.yaml
-  - ../environments/prod/
+
