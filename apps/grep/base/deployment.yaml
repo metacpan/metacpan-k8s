@@ -5,7 +5,6 @@ metadata:
   name: grep
   labels:
     app: grep
-  namespace: apps--grep
 spec:
   replicas: 1
   selector:

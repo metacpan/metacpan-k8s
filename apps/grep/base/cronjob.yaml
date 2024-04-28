@@ -3,7 +3,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: repo-refresh
-  namespace: apps--grep
 spec:
   schedule: "0 * * * *"
   concurrencyPolicy: Forbid
