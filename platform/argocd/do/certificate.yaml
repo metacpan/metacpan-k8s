@@ -5,7 +5,7 @@ metadata:
 spec:
   secretName: argocd-tls
   dnsNames:
-    - argocd.hz.metacpan.org
+    - argocd.do.metacpan.org
   issuerRef:
     name: letsencrypt-production
     # We can reference ClusterIssuers by changing the kind here.
