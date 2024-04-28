@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - web.hz.metacpan.org
+        - web.do.metacpan.org
       secretName: web-tls
   rules:
-    - host: web.hz.metacpan.org
+    - host: web.do.metacpan.org
       http:
         paths:
           - pathType: Prefix
