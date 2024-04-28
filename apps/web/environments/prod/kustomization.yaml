@@ -10,4 +10,5 @@ resources:
 - fastly-api_sealedsecret.yaml
 - purge-fastly-cache.yaml
 - prod_sealedsecret.yaml
-- ./namespace.yaml
+- namespace.yaml
+- ingress.yaml
