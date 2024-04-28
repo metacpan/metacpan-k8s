@@ -9,3 +9,5 @@ generators:
 
 resources:
 - namespace.yaml
+- https://github.com/traefik/traefik-helm-chart/traefik/crds/
+
