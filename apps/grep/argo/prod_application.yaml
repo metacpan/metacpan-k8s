@@ -7,7 +7,7 @@ spec:
   project: grep
   source:
     repoURL: https://github.com/metacpan/metacpan-k8s
-    targetRevision: digitalocean-main
+    targetRevision: main
     path: apps/grep/environments/prod
   destination:
     server: https://kubernetes.default.svc
