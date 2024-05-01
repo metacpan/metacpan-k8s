@@ -1,19 +1,16 @@
 # Quick Start
 
-This document gets you up and communicating with the k8s cluster quickly as such
-it's light on details.
+This document gets you up and communicating with the k8s cluster quickly, as such it's light on details.
 
 ## Access
 
-Copy the relevant cluster config e.g [hz-mc.kubeconfig](https://github.com/metacpan/metacpan-credentials/blob/master/k8s/hz-mc.kubeconfig) or [https://github.com/metacpan/metacpan-credentials/blob/master/k8s/hc-mc.kubeconfig](hc-mc.kubeconfig) to `$HOME/.kube/config` (note those are in a private repo for mc admins only).
-
-```sh
-mkdir $HOME/.kube
-cd $HOME/.kube
-cp ~/git/metacpan-credentials/k8s/hz-mc.kubeconfig ./config
-```
+Download the cluster config file from https://cloud.digitalocean.com/kubernetes/clusters/490ad197-959c-4024-945b-547fc99415ef?i=5289ac to `$HOME/.kube/config` 
 
 ## Browsing the cluster, looking at logs, accessing the container
+Use: https://argocd.do.metacpan.org/ with your github account
+
+Or:
+
 1. [Install k9s](https://k9scli.io/topics/install/)
 2. Run `k9s` from the command line
 3. Browse the cluster
@@ -21,7 +18,7 @@ cp ~/git/metacpan-credentials/k8s/hz-mc.kubeconfig ./config
 ## Deploying applications
 
 1. [Install kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
-2. Use the `kubectl apply -k <directory path>` ( e.g. `kubectl apply -k apps/web/hz` ) command to deploy an application
+2. Use the `kubectl apply -k <directory path>` ( e.g. `kubectl apply -k apps/web/argo` ) command to deploy an application
    to a cluster. Use the appropriate directory structure to deploy the
    application to the intended environment.
 

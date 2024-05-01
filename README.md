@@ -5,6 +5,11 @@ Welcome to kubernetes MetaCPAN!
 This documents the kubernetes implementation for MetaCPAN. This is a work in
 progress document, more details will be added to the document as required.
 
+## Docs:
+
+- [QuickStart](./docs/QuickStart.md)
+- [Digital Ocean Setup](./docs/DigitalOceanSetup.md)
+
 ## Cluster deployment
 
 - We deploy to DigitalOcean (DO)
