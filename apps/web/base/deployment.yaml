@@ -19,8 +19,10 @@ spec:
         - name: web
           image: metacpan/metacpan-web:latest
           imagePullPolicy: Always
+          command: [ "/uwsgi.sh" ]
+          args: [ "--http-socket", ":5001" ]
           ports:
-            - containerPort: 80
+            - containerPort: 5001
           volumeMounts:
             - name: metacpan-web-local
               mountPath: /metacpan-web/metacpan_web_local.conf
