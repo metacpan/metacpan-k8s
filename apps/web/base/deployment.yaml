@@ -19,20 +19,8 @@ spec:
         - name: web
           image: metacpan/metacpan-web:latest
           imagePullPolicy: Always
-          command: ["/usr/bin/dumb-init"]
-          args:
-            [
-              "--",
-              "/usr/local/bin/plackup",
-              "--port",
-              "5001",
-              "-E",
-              "production",
-              "-s",
-              "Gazelle",
-            ]
           ports:
-            - containerPort: 5001
+            - containerPort: 80
           volumeMounts:
             - name: metacpan-web-local
               mountPath: /metacpan-web/metacpan_web_local.conf
