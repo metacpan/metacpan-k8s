@@ -52,6 +52,6 @@ jobs:
         run: |
           kustomize edit set image "${{ inputs.repository }}:latest" "${{ inputs.repository }}:${{ inputs.tag }}"
           git add .
-          git commit -m "Update ${{ inputs.app }} to ${{ github.sha }}"
+          git commit -m "Update ${{ inputs.app }} to `${{ inputs.tag }}`"
       - name: Push manifests
         run: git push
