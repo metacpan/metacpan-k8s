@@ -1,0 +1,57 @@
+name: Update Image with Kustomize
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'Application'
+        required: true
+        type: choice
+        options:
+        - api
+        - grep
+        - web
+      environment:
+        description: 'Environment'
+        default: prod
+        type: choice
+        options:
+        - prod
+        - stage
+      repository:
+        description: 'Repository'
+        required: true
+        type: string
+      tag:
+        description: 'Tag'
+        required: true
+        type: string
+
+jobs:
+  update-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate Auth Token
+        id: auth-token
+        uses: jamestrousdale/github-app-jwt-token@0.1.4
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - id: git-user
+        name: Set up git user
+        uses: haarg/setup-git-user@v1
+        with:
+          jwt: ${{ steps.auth-token.outputs.jwt }}
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.auth-token.outputs.access-token }}
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2
+      - name: Update Image Tag
+        working-directory: ./apps/${{ inputs.app }}/environments/${{ inputs.environment }}
+        run: |
+          kustomize edit set image "${{ inputs.repository }}:latest" "${{ inputs.repository }}:${{ inputs.tag }}"
+          git add .
+          git commit -m "Update ${{ inputs.app }} to ${{ github.sha }}"
+      - name: Push manifests
+        run: git push
