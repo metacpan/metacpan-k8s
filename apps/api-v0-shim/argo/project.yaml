@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: api-v0-shim
+  namespace: argocd
+spec:
+  # Project description
+  description: MetaCPAN OLD Api v0 shim
+
+  sourceRepos:
+  - '*'
+
+  clusterResourceWhitelist:
+    - group: ''
+      kind: 'Namespace'
+
+  destinations:
+    - namespace: apps--api-v0-shim
+      server: https://kubernetes.default.svc
+      name: in-cluster

@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-v0-shim
+  namespace: apps--api-v0-shim
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - api-v0-shim.do.metacpan.org
+      - api-v0-shim.metacpan.org
+      secretName: api-v0-shim-tls
+  rules:
+    - host: api-v0-shim.do.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: api-v0-shim
+                port:
+                  number: 80
+    - host: api-v0-shim.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: api-v0-shim
+                port:
+                  number: 80

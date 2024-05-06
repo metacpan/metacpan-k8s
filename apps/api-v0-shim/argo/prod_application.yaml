@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name:  apps--api-v0-shim
+  namespace: argocd
+spec:
+  project: api-v0-shim
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: main
+    path: apps/api-v0-shim/environments/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace:  apps--api-v0-shim
