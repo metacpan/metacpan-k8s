@@ -18,12 +18,11 @@ on:
         options:
         - prod
         - stage
-      repository:
-        description: 'Repository'
-        required: true
+      base-tag:
+        description: 'Base Image Tag'
         type: string
       tag:
-        description: 'Tag'
+        description: 'Image Tag'
         required: true
         type: string
 
@@ -51,8 +50,8 @@ jobs:
       - name: Update Image Tag
         working-directory: ./apps/${{ inputs.app }}/environments/${{ inputs.environment }}
         run: |
-          kustomize edit set image "${{ inputs.repository }}:latest" "${{ inputs.repository }}:${{ inputs.tag }}"
+          kustomize edit set image ${{ inputs.base-tag }} ${{ inputs.tag }}
           git add .
-          git commit -m "Update ${{ inputs.app }} to ${{ github.sha }}"
+          git commit -m "Update ${{ inputs.app }} to `${{ inputs.tag }}`"
       - name: Push manifests
         run: git push
