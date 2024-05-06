@@ -37,6 +37,7 @@ We deploy the `Argo Application` app which then pulls in the rest of the setup
 ```
 kubectl apply -k web/argo
 kubectl apply -k grep/argo
+kubectl apply -k api-v0-shim/argo
 ```
 
 You may need to login to https://argocd.do.metacpan.org/ to then perform the

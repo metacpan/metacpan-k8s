@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-v0-shim
+  labels:
+    app: api-v0-shim
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-v0-shim
+  template:
+    metadata:
+      labels:
+        app: api-v0-shim
+    spec: 
+      containers:
+      - name: api-v0-shim
+        image: metacpan/metacpan-api-v0-shim:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5001
