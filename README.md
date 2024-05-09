@@ -21,12 +21,14 @@ progress document, more details will be added to the document as required.
 Need to remember that secrets are signed to the cluster not globally. You can copy the signer from one cluster to another if needed.
 
 ```
+cd platform/
 kubectl apply -k sealdedsecreats/do
 kubectl apply -k cert-manager/do
 kubectl apply -k ingress-nginx
 kubectl apply -k postgres
 kubectl apply -k nfs-provisioner/volatile
 kubectl apply -k argocd/do
+kubectl create -f kube-state-metrics/
 ```
 
 (might need `kubectl kustomization --enable-helm | kubectl apply -f` for any helm based ones above )
