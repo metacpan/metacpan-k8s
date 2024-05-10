@@ -33,7 +33,13 @@ spec:
             - name: metacpan-web-local
               mountPath: /app/metacpan_web_local.conf
               subPath: metacpan_web_local.conf
+            - name: uwsgi
+              mountPath: /etc/uwsgi.ini
+              subPath: uwsgi.ini
       volumes:
         - name: metacpan-web-local
           secret:
             secretName: metacpan-web-local
+        - name: uwsgi
+          configMap:
+            name: uwsgi
