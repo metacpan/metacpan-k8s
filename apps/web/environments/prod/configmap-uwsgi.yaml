@@ -1,0 +1,20 @@
+kind: ConfigMap
+metadata:
+  name: uwsgi
+  namespace: apps--web
+apiVersion: v1
+data:
+  uwsgi.ini: |
+    [uwsgi]
+    master = true
+    workers = 5
+    die-on-term = true
+
+    disable-logging = true
+
+    listen = 1024
+    post-buffering = 4096
+    buffer-size = 65535
+
+    early-psgi = true
+    perl-no-die-catch = true
