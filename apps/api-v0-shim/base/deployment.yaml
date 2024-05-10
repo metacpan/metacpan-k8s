@@ -19,5 +19,7 @@ spec:
       - name: api-v0-shim
         image: metacpan/metacpan-api-v0-shim:latest
         imagePullPolicy: Always
+        command: [ "/uwsgi.sh" ]
+        args: [ "--http-socket", ":5001", "--workers", "5" ]
         ports:
         - containerPort: 5001
