@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testsmoke-web
+  labels:
+    app: testsmoke-web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: testsmoke-web
+  template:
+    metadata:
+      labels:
+        app: testsmoke-web
+    spec:
+      containers:
+        - name: web
+          image: metacpan/perl5-coresmokedb-web:latest
+          imagePullPolicy: Always
+          # command: [ "/uwsgi.sh" ]
+          # args: [ "--http-socket", ":5001" ]
+          ports:
+            - containerPort: 5555
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testsmoke-api
+  labels:
+    app: testsmoke-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: testsmoke-api
+  template:
+    metadata:
+      labels:
+        app: testsmoke-api
+    spec:
+      containers:
+        - name: web
+          image: metacpan/perl5-coresmokedb-api:latest
+          imagePullPolicy: Always
+          # command: [ "/uwsgi.sh" ]
+          # args: [ "--http-socket", ":5001" ]
+          ports:
+            - containerPort: 5555
+        - name: api
+          image: metacpan/perl5-coresmokedb-api:latest
+          imagePullPolicy: Always
+          # command: [ "/uwsgi.sh" ]
+          # args: [ "--http-socket", ":5001" ]
+          ports:
+            - containerPort: 5050
