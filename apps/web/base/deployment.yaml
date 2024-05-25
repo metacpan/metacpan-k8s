@@ -25,7 +25,7 @@ spec:
             - containerPort: 5001
           volumeMounts:
             - name: metacpan-web-local
-              mountPath: /metacpan-web/metacpan_web_local.conf
+              mountPath: /app/metacpan_web_local.conf
               subPath: metacpan_web_local.conf
       volumes:
         - name: metacpan-web-local
