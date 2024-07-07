@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: apps--web
 images:
 - name: metacpan/metacpan-web
-  newTag: sha-f4f04880d709e4e3797f04472c13363fb40b3953
+  newTag: sha-bdd3d20b2ea61a5decce2c7e2b2d904a851dba25
 resources:
 - fastly-api_sealedsecret.yaml
 - purge-fastly-cache.yaml
