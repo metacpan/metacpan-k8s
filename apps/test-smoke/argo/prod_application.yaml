@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps--testsmoke
+  namespace: argocd
+spec:
+  project: testsmoke
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: main
+    path: apps/test-smoke/environments/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps--testsmoke
