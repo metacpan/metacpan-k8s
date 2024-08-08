@@ -7,7 +7,7 @@ spec:
   project: testsmoke
   source:
     repoURL: https://github.com/metacpan/metacpan-k8s
-    targetRevision: leo/testsmoke
+    targetRevision: main
     path: apps/test-smoke/environments/prod
   destination:
     server: https://kubernetes.default.svc
