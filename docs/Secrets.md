@@ -12,5 +12,5 @@ With namespace added example:
 kubectl create secret generic docker-local-yaml \
   --from-file=./docker_local.yaml -o yaml --dry-run=client \
   | \
-  kubeseal --format yaml -n app--testsmoke > sealed-secret.yaml
+  kubeseal --format yaml -n apps--testsmoke > sealed-secret.yaml
 ```
