@@ -55,3 +55,11 @@ spec:
           # args: [ "--http-socket", ":5001" ]
           ports:
             - containerPort: 5050
+          volumeMounts:
+            - name: docker-local-yaml
+              mountPath: /var/lib/coresmokedb-api/environments/docker_local.yaml
+              subPath: docker_local.yaml
+      volumes:
+        - name: docker-local-yaml
+          secret:
+            secretName: docker-local-yaml

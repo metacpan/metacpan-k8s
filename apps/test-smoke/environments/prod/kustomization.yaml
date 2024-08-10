@@ -6,5 +6,6 @@ images:
   newTag: sha-7e3035cd0a9729fef34911f3246632b52b6df76d
 resources:
 - namespace.yaml
+- docker-local-sealedsecret.yaml
 - ingress.yaml
 - ../../base/
