@@ -41,13 +41,6 @@ spec:
         app: testsmoke-api
     spec:
       containers:
-        - name: web
-          image: metacpan/perl5-coresmokedb-api:latest
-          imagePullPolicy: Always
-          # command: [ "/uwsgi.sh" ]
-          # args: [ "--http-socket", ":5001" ]
-          ports:
-            - containerPort: 5555
         - name: api
           image: metacpan/perl5-coresmokedb-api:latest
           imagePullPolicy: Always
