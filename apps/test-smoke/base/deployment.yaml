@@ -57,7 +57,7 @@ spec:
             - containerPort: 5050
           volumeMounts:
             - name: docker-local-yaml
-              mountPath: /var/lib/coresmokedb-api/environments/docker_local.yaml
+              mountPath: /var/lib/coresmokedb-api/environments/docker_local.yml
               subPath: docker_local.yaml
       volumes:
         - name: docker-local-yaml
