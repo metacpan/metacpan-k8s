@@ -21,28 +21,10 @@ spec:
                 name: testsmoke-web
                 port:
                   number: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: testsmoke-api
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-production
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - testsmoke-api.do.metacpan.org
-      secretName: api-tls
-  rules:
-    - host: testsmoke-api.do.metacpan.org
-      http:
-        paths:
           - pathType: Prefix
-            path: "/"
+            path: "/api"
             backend:
               service:
                 name: testsmoke-api
                 port:
                   number: 80
-
