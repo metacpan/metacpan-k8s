@@ -23,4 +23,16 @@ patchesStrategicMerge:
       name: ingress-nginx-controller
       namespace: ingress-nginx
     spec:
-      replicas: 3
+      replicas: 4
+      template:
+        spec:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values:
+                          - ingress-nginx
+                  topologyKey: "kubernetes.io/hostname"
