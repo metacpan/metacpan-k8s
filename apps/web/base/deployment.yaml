@@ -6,7 +6,7 @@ metadata:
   labels:
     app: web
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: web
@@ -15,6 +15,17 @@ spec:
       labels:
         app: web
     spec:
+      # spread nodes across servers
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - web
+            topologyKey: "kubernetes.io/hostname"
       containers:
         - name: web
           image: metacpan/metacpan-web:latest
@@ -23,6 +34,12 @@ spec:
           args: [ "--http-socket", ":5001" ]
           ports:
             - containerPort: 5001
+          resources:
+            # Manage how much memory is allocated, could add cpu if we wanted
+            requests:
+              memory: "1024Mi"
+            limits:
+              memory: "3072Mi"
           volumeMounts:
             - name: metacpan-web-local
               mountPath: /app/metacpan_web_local.conf
