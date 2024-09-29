@@ -11,6 +11,7 @@ on:
         - grep
         - web
         - api-v0-shim
+        - sco-redirect
       environment:
         description: 'Environment'
         default: prod
