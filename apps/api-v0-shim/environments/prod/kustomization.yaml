@@ -1,12 +1,10 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: apps--api-v0-shim
-bases:
-  - ../../base/
 resources:
-  - namespace.yaml
-  - ingress.yaml
+- namespace.yaml
+- ingress.yaml
+- ../../base/
 images:
 - name: metacpan/metacpan-api-v0-shim
-  newTag: sha-c2a9b5e81646f8e9530b1e22cce1eb9789c06045
+  newTag: sha-9e4d6bcd03e866f68539095309d44f2ffc4ef71a
