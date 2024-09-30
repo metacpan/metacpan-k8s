@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: sco-redirect
+  namespace: argocd
+spec:
+  # Project description
+  description: search.cpan.org redirector
+
+  sourceRepos:
+  - '*'
+
+  clusterResourceWhitelist:
+    - group: ''
+      kind: 'Namespace'
+
+  destinations:
+    - namespace: apps--sco-redirect
+      server: https://kubernetes.default.svc
+      name: in-cluster

@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sco-redirect
+  labels:
+    app: sco-redirect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sco-redirect
+  template:
+    metadata:
+      labels:
+        app: sco-redirect
+    spec:
+      containers:
+      - name: sco-redirect
+        image: metacpan/sco-redirect:latest
+        imagePullPolicy: Always
+        command: [ "/uwsgi.sh" ]
+        args: [ "--http-socket", ":5001", "--workers", "5" ]
+        ports:
+        - containerPort: 5001

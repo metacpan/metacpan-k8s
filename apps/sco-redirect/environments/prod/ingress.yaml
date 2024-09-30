@@ -1,0 +1,64 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sco-redirect
+  namespace: apps--sco-redirect
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - sco.do.metacpan.org
+      secretName: sco-redirect-tls
+  rules:
+    - host: sco.do.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: sco-redirect
+                port:
+                  number: 80
+    - host: sco.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: sco-redirect
+                port:
+                  number: 80
+    - host: search.cpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: sco-redirect
+                port:
+                  number: 80
+    - host: search.mcpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: sco-redirect
+                port:
+                  number: 80
+    - host: cpansearch.perl.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: sco-redirect
+                port:
+                  number: 80

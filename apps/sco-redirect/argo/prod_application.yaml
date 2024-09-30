@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name:  apps--sco-redirect
+  namespace: argocd
+spec:
+  project: sco-redirect
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: main
+    path: apps/sco-redirect/environments/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace:  apps--sco-redirect
