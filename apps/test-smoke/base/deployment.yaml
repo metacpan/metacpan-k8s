@@ -6,7 +6,7 @@ metadata:
   labels:
     app: testsmoke-web
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: testsmoke-web
@@ -23,6 +23,12 @@ spec:
           # args: [ "--http-socket", ":5001" ]
           ports:
             - containerPort: 5555
+          resources:
+            # Manage how much memory is allocated, could add cpu if we wanted
+            requests:
+              memory: "10Mi"
+            limits:
+              memory: "20Mi"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -31,7 +37,7 @@ metadata:
   labels:
     app: testsmoke-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: testsmoke-api
@@ -52,6 +58,12 @@ spec:
             - name: docker-local-yaml
               mountPath: /var/lib/coresmokedb-api/environments/docker_local.yml
               subPath: docker_local.yaml
+          resources:
+            # Manage how much memory is allocated, could add cpu if we wanted
+            requests:
+              memory: "1000Mi"
+            limits:
+              memory: "3500Mi"
       volumes:
         - name: docker-local-yaml
           secret:
