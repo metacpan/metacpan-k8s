@@ -23,6 +23,7 @@ spec:
                 [ -f /shared/metacpan_git/.init_complete ] \
                 && cd /shared/metacpan_git && git pull origin master
             imagePullPolicy: IfNotPresent
+            ttlSecondsAfterFinished: 600  # Automatically delete 10 minutes after completion
           volumes:
             - name: gitrepo
               persistentVolumeClaim:
