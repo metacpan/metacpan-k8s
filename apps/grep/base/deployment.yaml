@@ -38,6 +38,12 @@ spec:
         envFrom:
         - configMapRef:
             name: grep
+        resources:
+          # Manage how much memory is allocated, could add cpu if we wanted
+          requests:
+            memory: "1024Mi"
+          limits:
+            memory: "4072Mi"
         volumeMounts:
         - name: gitrepo
           mountPath: /shared/metacpan_git
