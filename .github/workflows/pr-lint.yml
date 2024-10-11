@@ -1,0 +1,24 @@
+name: Validate YAML Configs
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate-yaml:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install yamllint
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y yamllint
+
+    - name: Validate All YAML Files
+      run: |
+        find . -name "*.yaml" -o -name "*.yml" -exec yamllint {} \;
