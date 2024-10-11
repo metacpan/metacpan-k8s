@@ -23,7 +23,7 @@ patchesStrategicMerge:
       name: ingress-nginx-controller
       namespace: ingress-nginx
     spec:
-      replicas: 4
+      replicas: 3
       template:
         spec:
           affinity:
