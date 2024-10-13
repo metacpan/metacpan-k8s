@@ -24,7 +24,8 @@ Need to remember that secrets are signed to the cluster not globally. You can co
 cd platform/
 kubectl apply -k sealdedsecreats/do
 kubectl apply -k cert-manager/do
-kubectl apply -k rook-operator
+kubectl create -f rook-operator/crds.yaml -f rook-operator/common.yaml
+kubectl create -f rook-operator/operator.yaml
 kubectl apply -k rook-clusters/volatile
 kubectl apply -k rook-clusters/durable
 kubectl apply -k ingress-nginx
