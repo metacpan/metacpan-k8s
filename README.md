@@ -24,10 +24,13 @@ Need to remember that secrets are signed to the cluster not globally. You can co
 cd platform/
 kubectl apply -k sealdedsecreats/do
 kubectl apply -k cert-manager/do
+kubectl apply -k rook-operator
+kubectl apply -k rook-clusters/volatile
+kubectl apply -k rook-clusters/durable
 kubectl apply -k ingress-nginx
-kubectl apply -k postgres
 kubectl apply -k nfs-provisioner/volatile
 kubectl apply -k argocd/do
+
 kubectl create -f kube-state-metrics/
 ```
 
