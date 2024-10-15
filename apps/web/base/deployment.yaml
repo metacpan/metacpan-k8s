@@ -19,13 +19,15 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - web
-            topologyKey: "kubernetes.io/hostname"
+          - weight: 1
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - web
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: web
           image: metacpan/metacpan-web:latest
