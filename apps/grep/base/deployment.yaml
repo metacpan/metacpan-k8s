@@ -41,7 +41,7 @@ spec:
         resources:
           # Manage how much memory is allocated, could add cpu if we wanted
           requests:
-            memory: "1024Mi"
+            memory: "4072Mi"
           limits:
             memory: "4072Mi"
         volumeMounts:
