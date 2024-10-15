@@ -9,7 +9,7 @@
 apiVersion: ceph.rook.io/v1
 kind: CephCluster
 metadata:
-  name: rook-ceph-for-volatile
+  name: rook-ceph-for-durable
   namespace: rook-ceph # namespace:cluster
 spec:
   dataDirHostPath: /var/lib/rook
@@ -28,10 +28,10 @@ spec:
     # size appropriate for monitor data will be used.
     volumeClaimTemplate:
       spec:
-        storageClassName: do-block-storage
+        storageClassName: do-block-storage-retain
         resources:
           requests:
-            storage: 50Gi
+            storage: 20Gi
   cephVersion:
     image: quay.io/ceph/ceph:v17.2.6
     allowUnsupported: false
@@ -132,7 +132,7 @@ spec:
                 requests:
                   storage: 100Gi
               # IMPORTANT: Change the storage class depending on your environment
-              storageClassName: do-block-storage
+              storageClassName: do-block-storage-retain
               volumeMode: Block
               accessModes:
                 - ReadWriteOnce
