@@ -26,7 +26,7 @@ spec:
           resources:
             # Manage how much memory is allocated, could add cpu if we wanted
             requests:
-              memory: "10Mi"
+              memory: "20Mi"
             limits:
               memory: "20Mi"
 ---
@@ -61,7 +61,7 @@ spec:
           resources:
             # Manage how much memory is allocated, could add cpu if we wanted
             requests:
-              memory: "1000Mi"
+              memory: "3500Mi"
             limits:
               memory: "3500Mi"
       volumes:
