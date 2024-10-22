@@ -21,7 +21,7 @@ spec:
               - -c
               - |-
                 [ -f /shared/metacpan_git/.init_complete ] \
-                && cd /shared/metacpan_git && git pull origin master
+                && cd /shared/metacpan_git && git fetch origin && git reset --hard origin/master
             imagePullPolicy: IfNotPresent
           volumes:
             - name: gitrepo
