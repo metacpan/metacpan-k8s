@@ -47,7 +47,7 @@ spec:
         volumeMounts:
         - name: gitrepo
           mountPath: /shared/metacpan_git
-          readOnly: true
+          readOnly: false
       volumes:
         - name: gitrepo
           persistentVolumeClaim:
