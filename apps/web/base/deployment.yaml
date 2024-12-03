@@ -37,6 +37,18 @@ spec:
             - name: metacpan-web-local
               mountPath: /app/metacpan_web_local.conf
               subPath: metacpan_web_local.conf
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 5001
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /healthcheck
+              port: 5001
+            failureThreshold: 30
+            periodSeconds: 10
       volumes:
         - name: metacpan-web-local
           secret:
