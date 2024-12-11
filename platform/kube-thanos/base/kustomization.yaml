@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ./thanos-compact-service.yaml
+  - ./thanos-compact-serviceAccount.yaml
+  - ./thanos-compact-serviceMonitor.yaml
+  - ./thanos-compact-statefulSet.yaml
+  - ./thanos-query-deployment.yaml
+  - ./thanos-query-service.yaml
+  - ./thanos-query-serviceAccount.yaml
+  - ./thanos-query-serviceMonitor.yaml
+  - ./thanos-receive-ingestor-default-service.yaml
+  - ./thanos-receive-ingestor-default-statefulSet.yaml
+  - ./thanos-receive-ingestor-serviceAccount.yaml
+  - ./thanos-receive-ingestor-serviceMonitor.yaml
+  - ./thanos-receive-router-configmap.yaml
+  - ./thanos-receive-router-deployment.yaml
+  - ./thanos-receive-router-service.yaml
+  - ./thanos-receive-router-serviceAccount.yaml
+  - ./thanos-store-service.yaml
+  - ./thanos-store-serviceAccount.yaml
+  - ./thanos-store-serviceMonitor.yaml
+  - ./thanos-store-statefulSet.yaml
