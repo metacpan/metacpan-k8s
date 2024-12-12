@@ -1,2 +1,3 @@
 **/charts/
 platform/kube-thanos/vendor
+platform/kube-prometheus/vendor
