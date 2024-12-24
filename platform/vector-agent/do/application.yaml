@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vector-agent
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: main
+    path: platform/vector-agent/do
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vector-agent
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
