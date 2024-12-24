@@ -1,0 +1,43 @@
+# Default values for Vector
+# See Vector helm documentation to learn more:
+# https://vector.dev/docs/setup/installation/package-managers/helm/
+
+# nameOverride -- Override the name of resources.
+nameOverride: "agent"
+
+# role -- [Role](https://vector.dev/docs/setup/deployment/roles/) for this Vector instance, valid options are:
+# "Agent", "Aggregator", and "Stateless-Aggregator".
+
+# Each role is created with the following workloads:
+# Agent = DaemonSet
+# Aggregator = StatefulSet
+# Stateless-Aggregator = Deployment
+role: "Agent"
+
+# rollWorkload -- Add a checksum of the generated ConfigMap to workload annotations.
+rollWorkload: true
+
+rbac:
+  # rbac.create -- If true, create and use RBAC resources. Only valid for the "Agent" role.
+  create: true
+
+serviceAccount:
+  # serviceAccount.create -- If true, create a ServiceAccount for Vector.
+  create: true
+  # serviceAccount.annotations -- Annotations to add to Vector's ServiceAccount.
+  annotations: {}
+  # serviceAccount.name -- The name of the ServiceAccount to use. If not set and serviceAccount.create is true, a name
+  # is generated using the fullname template.
+  name:
+  # serviceAccount.automountToken -- Automount API credentials for Vector's ServiceAccount.
+  automountToken: true
+
+  # resources -- Set Vector resource requests and limits.
+  resources:
+  # https://vector.dev/docs/setup/installation/platforms/kubernetes/#agent-resource-limits
+  requests:
+    memory: "64Mi"
+    cpu: "500m"
+  limits:
+    memory: "1024Mi"
+    cpu: "6000m"
