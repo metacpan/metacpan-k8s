@@ -56,6 +56,9 @@ local kp =
             },
           },
         },
+        dashboards+:: {
+          'grafana-dashboard-application.json': (import 'dashboards/grafana-dashboard-application.json'),
+        },
         datasources: [
           {
             name: 'thanos',
