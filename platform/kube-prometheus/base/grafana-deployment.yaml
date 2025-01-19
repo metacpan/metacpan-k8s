@@ -77,6 +77,9 @@ spec:
         - mountPath: /grafana-dashboard-definitions/0/controller-manager
           name: grafana-dashboard-controller-manager
           readOnly: false
+        - mountPath: /grafana-dashboard-definitions/0/grafana-dashboard-application
+          name: grafana-dashboard-grafana-dashboard-application
+          readOnly: false
         - mountPath: /grafana-dashboard-definitions/0/grafana-overview
           name: grafana-dashboard-grafana-overview
           readOnly: false
@@ -178,6 +181,9 @@ spec:
       - configMap:
           name: grafana-dashboard-controller-manager
         name: grafana-dashboard-controller-manager
+      - configMap:
+          name: grafana-dashboard-grafana-dashboard-application
+        name: grafana-dashboard-grafana-dashboard-application
       - configMap:
           name: grafana-dashboard-grafana-overview
         name: grafana-dashboard-grafana-overview
