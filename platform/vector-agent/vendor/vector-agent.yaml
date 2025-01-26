@@ -1,0 +1,285 @@
+---
+# Source: vector/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vector-agent
+  labels:
+    helm.sh/chart: vector-0.37.0
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Agent
+    app.kubernetes.io/version: "0.42.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+automountServiceAccountToken: true
+---
+# Source: vector/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vector-agent
+  labels:
+    helm.sh/chart: vector-0.37.0
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Agent
+    app.kubernetes.io/version: "0.42.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+data:
+  agent.yaml: |
+    data_dir: /vector-data-dir
+    api:
+      enabled: true
+      address: 127.0.0.1:8686
+      playground: false
+    sources:
+      kubernetes_logs:
+        type: kubernetes_logs
+      host_metrics:
+        filesystem:
+          devices:
+            excludes: [binfmt_misc]
+          filesystems:
+            excludes: [binfmt_misc]
+          mountpoints:
+            excludes: ["*/proc/sys/fs/binfmt_misc"]
+        type: host_metrics
+      internal_metrics:
+        type: internal_metrics
+    sinks:
+      prom_exporter:
+        type: prometheus_exporter
+        inputs: [host_metrics, internal_metrics]
+        address: 0.0.0.0:9090
+      stdout:
+        type: console
+        inputs: [kubernetes_logs]
+        encoding:
+          codec: json
+---
+# Source: vector/templates/rbac.yaml
+# Permissions to use Kubernetes API.
+# Requires that RBAC authorization is enabled.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: vector-agent
+  labels:
+    helm.sh/chart: vector-0.37.0
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Agent
+    app.kubernetes.io/version: "0.42.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+      - nodes
+      - pods
+    verbs:
+      - list
+      - watch
+---
+# Source: vector/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: vector-agent
+  labels:
+    helm.sh/chart: vector-0.37.0
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Agent
+    app.kubernetes.io/version: "0.42.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: vector-agent
+subjects:
+  - kind: ServiceAccount
+    name: vector-agent
+    namespace: vector-agent
+---
+# Source: vector/templates/service-headless.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: vector-agent-headless
+  labels:
+    helm.sh/chart: vector-0.37.0
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Agent
+    app.kubernetes.io/version: "0.42.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+  annotations:
+spec:
+  clusterIP: None
+  ports:
+    - name: datadog-agent
+      port: 8282
+      protocol: TCP
+    - name: fluent
+      port: 24224
+      protocol: TCP
+    - name: logstash
+      port: 5044
+      protocol: TCP
+    - name: splunk-hec
+      port: 8080
+      protocol: TCP
+    - name: statsd
+      port: 8125
+      protocol: TCP
+    - name: syslog
+      port: 9000
+      protocol: TCP
+    - name: vector
+      port: 6000
+      protocol: TCP
+    - name: prom-exporter
+      port: 9090
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Agent
+  type: ClusterIP
+---
+# Source: vector/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: vector-agent
+  labels:
+    helm.sh/chart: vector-0.37.0
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Agent
+    app.kubernetes.io/version: "0.42.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+  annotations:
+spec:
+  ports:
+    - name: prom-exporter
+      port: 9090
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Agent
+  type: ClusterIP
+---
+# Source: vector/templates/daemonset.yaml
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: vector-agent
+  labels:
+    helm.sh/chart: vector-0.37.0
+    app.kubernetes.io/name: agent
+    app.kubernetes.io/instance: vector
+    app.kubernetes.io/component: Agent
+    app.kubernetes.io/version: "0.42.0-distroless-libc"
+    app.kubernetes.io/managed-by: Helm
+    
+  annotations:
+    {}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: agent
+      app.kubernetes.io/instance: vector
+      app.kubernetes.io/component: Agent
+  minReadySeconds: 0
+  template:
+    metadata:
+      annotations:
+        checksum/config: 28273108304f74676c406b7d6e7ec351efca807bd086ba5c8211b513238e1f0c
+      labels:
+        app.kubernetes.io/name: agent
+        app.kubernetes.io/instance: vector
+        app.kubernetes.io/component: Agent
+        vector.dev/exclude: "true"
+    spec:
+      serviceAccountName: vector-agent
+      dnsPolicy: ClusterFirst
+      containers:
+        - name: vector
+          image: "timberio/vector:0.42.0-distroless-libc"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config-dir
+            - /etc/vector/
+          env:
+            - name: VECTOR_LOG
+              value: "info"
+            - name: VECTOR_SELF_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: VECTOR_SELF_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: VECTOR_SELF_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: PROCFS_ROOT
+              value: "/host/proc"
+            - name: SYSFS_ROOT
+              value: "/host/sys"
+          ports:
+            - name: prom-exporter
+              containerPort: 9090
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: "/vector-data-dir"
+            - name: config
+              mountPath: "/etc/vector/"
+              readOnly: true
+            - mountPath: /var/log/
+              name: var-log
+              readOnly: true
+            - mountPath: /var/lib
+              name: var-lib
+              readOnly: true
+            - mountPath: /host/proc
+              name: procfs
+              readOnly: true
+            - mountPath: /host/sys
+              name: sysfs
+              readOnly: true
+      terminationGracePeriodSeconds: 60
+      volumes:
+        - name: config
+          projected:
+            sources:
+              - configMap:
+                  name: vector-agent
+        - name: data
+          hostPath:
+            path: "/var/lib/vector"
+        - hostPath:
+            path: /var/log/
+          name: var-log
+        - hostPath:
+            path: /var/lib/
+          name: var-lib
+        - hostPath:
+            path: /proc
+          name: procfs
+        - hostPath:
+            path: /sys
+          name: sysfs
