@@ -1,0 +1,39 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    app.kubernetes.io/component: prometheus
+    app.kubernetes.io/instance: k8s
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/part-of: kube-prometheus
+    app.kubernetes.io/version: 2.54.0
+    prometheus: k8s
+    role: alert-rules
+  name: prometheus-k8s-thanos-sidecar-rules
+  namespace: monitoring
+spec:
+  groups:
+  - name: thanos-sidecar
+    rules:
+    - alert: ThanosSidecarBucketOperationsFailed
+      annotations:
+        description: Thanos Sidecar {{$labels.instance}} in {{$labels.namespace}} bucket operations are failing
+        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/thanossidecarbucketoperationsfailed
+        summary: Thanos Sidecar bucket operations are failing
+      expr: |
+        sum by (namespace, job, instance) (rate(thanos_objstore_bucket_operation_failures_total{job="thanos-sidecar"}[5m])) > 0
+      for: 5m
+      labels:
+        severity: critical
+    - alert: ThanosSidecarNoConnectionToStartedPrometheus
+      annotations:
+        description: Thanos Sidecar {{$labels.instance}} in {{$labels.namespace}} is unhealthy.
+        runbook_url: https://runbooks.prometheus-operator.dev/runbooks/prometheus/thanossidecarnoconnectiontostartedprometheus
+        summary: Thanos Sidecar cannot access Prometheus, even though Prometheus seems healthy and has reloaded WAL.
+      expr: |
+        thanos_sidecar_prometheus_up{job="thanos-sidecar"} == 0
+        AND on (namespace, pod)
+        prometheus_tsdb_data_replay_duration_seconds != 0
+      for: 5m
+      labels:
+        severity: critical
