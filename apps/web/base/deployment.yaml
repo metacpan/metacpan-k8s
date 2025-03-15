@@ -23,8 +23,8 @@ spec:
         - name: web
           image: metacpan/metacpan-web:latest
           imagePullPolicy: Always
-          command: [ "/uwsgi.sh" ]
-          args: [ "--http-socket", ":5001" ]
+          command: ["/uwsgi.sh"]
+          args: ["--http-socket", ":5001"]
           ports:
             - containerPort: 5001
           resources:
@@ -37,7 +37,25 @@ spec:
             - name: metacpan-web-local
               mountPath: /app/metacpan_web_local.conf
               subPath: metacpan_web_local.conf
+        - name: caddy
+          image: caddy:latest
+          ports:
+            - containerPort: 2019
+            - containerPort: 80
+          volumeMounts:
+            - name: caddy-config
+              mountPath: /etc/caddy
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
       volumes:
         - name: metacpan-web-local
           secret:
             secretName: metacpan-web-local
+        - name: caddy-config
+          configMap:
+            name: caddy-config
