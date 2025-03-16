@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: caddy-config
+data:
+  Caddyfile: |
+    {
+      admin :2019
+      metrics
+    }
+    :80 {
+      reverse_proxy localhost:5001
+    }
