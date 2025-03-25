@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/metacpan/metacpan-k8s
     targetRevision: main
-    path: prometheus/kube-prometheus/do
+    path: platform/kube-prometheus/do
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
