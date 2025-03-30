@@ -2,7 +2,7 @@
 .DEFAULT_GOAL := help
 
 # Variables
-DEFAULT_VERSION := v2.9.3
+DEFAULT_VERSION := v2.11.7
 VERSION ?= $(DEFAULT_VERSION)
 ARGO_CD_BASE_URL := https://raw.githubusercontent.com/argoproj/argo-cd
 OUTPUT_YAML := base/deploy.yaml
