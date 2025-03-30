@@ -6,4 +6,4 @@ resources:
   - ./github_auth_secret.yaml
   - ./../patches/
   - ./ingress.yaml
-
+  - ./argo-applications.yaml
