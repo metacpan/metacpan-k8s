@@ -23,14 +23,6 @@ manifests:
 	helm repo update
 	helm template loki --values $(VALUES_FILE) --namespace loki  grafana/loki --version $(LOKI_VERSION)  > $(LOKI_OUTPUT_YAML)
 
-.PHONY: upgrade
-upgrade:
-	@echo "Removing previous $(LOKI_OUTPUT_YAML)..."
-	rm -f $(LOKI_OUTPUT_YAML)
-	@echo "Pulling Loki YAML (Version: $(LOKI_VERSION)) from Helm chart..."
-	helm repo update
-	helm upgrade --values $(VALUES_FILE) --namespace loki grafana/loki  > $(LOKI_OUTPUT_YAML)
-
 .PHONY: check-tools
 check-tools:
 	@command -v helm >/dev/null 2>&1 || { echo >&2 "helm is not installed. Aborting."; exit 1; }
@@ -43,6 +35,5 @@ help:
 	@echo "Targets:"
 	@echo "  init        : Add Loki helm chart repository"
 	@echo "  manifests   : Pull Loki YAML from Helm chart with specified values.yaml and remove the old Loki YAML"
-	@echo "  upgrade     : Pull Loki YAML from Helm chart with specified values.yaml and upgrade the old Loki YAML"
 	@echo "  check-tools : ensure required tools are installed"
 	@echo "  help        : Display this help message"
