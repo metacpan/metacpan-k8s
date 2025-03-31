@@ -4,6 +4,5 @@ kind: Kustomization
 resources:
   - ../base/
   - ./ingress.yaml
-  - ./application.yaml
   - ./sealedsecret-thanos-objectstorage.yaml
   - ./sealedsecret-grafana-config.yaml
