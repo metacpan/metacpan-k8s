@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/metacpan/metacpan-k8s
     targetRevision: main
-    path: "/argocd-applications/do/"
+    path: "argocd-applications/do/"
   destination:
     server: "https://kubernetes.default.svc"
     namespace: argocd
