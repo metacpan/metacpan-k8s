@@ -61,9 +61,9 @@ spec:
             storage: 10Gi
         storageClassName: do-block-storage
   thanos:
-    image: quay.io/thanos/thanos:v0.36.1
+    image: quay.io/thanos/thanos:v0.30.0
     objectStorageConfig:
       key: thanos.yaml
       name: thanos-objectstorage
-    version: 0.36.1
+    version: 0.38.0
   version: 3.2.1
