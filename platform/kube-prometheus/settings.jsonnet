@@ -16,6 +16,7 @@ local kp =
         namespace: 'monitoring',
       },
       prometheus+: {
+        namespaces: [],
         thanos: {
           version: '0.38.0',
           image: 'quay.io/thanos/thanos:v0.30.0',
