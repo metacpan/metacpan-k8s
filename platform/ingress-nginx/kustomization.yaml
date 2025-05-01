@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/do/deploy.yaml
   - service.yaml
+  - servicemonitor.yaml
 patchesStrategicMerge:
   - |-
     apiVersion: v1
