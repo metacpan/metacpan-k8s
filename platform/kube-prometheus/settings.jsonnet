@@ -58,6 +58,7 @@ local kp =
         },
         dashboards+:: {
           'grafana-dashboard-application.json': (import 'dashboards/grafana-dashboard-application.json'),
+          'grafana-dashboard-ingress-nginx.json': (import 'dashboards/grafana-dashboard-ingress-nginx.json'),
         },
         datasources: [
           {
