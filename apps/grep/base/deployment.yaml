@@ -16,38 +16,38 @@ spec:
         app: grep
     spec:
       initContainers:
-      - name: repo-seed
-        image: bitnami/git:latest
-        imagePullPolicy: Always
-        volumeMounts:
-        - name: gitrepo
-          mountPath: /shared/metacpan_git
-        command:
-          - sh
-          - -c
-          - |-
-            [ -d /shared/metacpan_git/.git ] \
-            || git clone https://github.com/metacpan/metacpan-cpan-extracted.git /shared/metacpan_git \
-              && touch /shared/metacpan_git/.init_complete 
+        - name: repo-seed
+          image: bitnami/git:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: gitrepo
+              mountPath: /shared/metacpan_git
+          command:
+            - sh
+            - -c
+            - |-
+              [ -d /shared/metacpan_git/.git ] \
+              || git clone https://github.com/metacpan/metacpan-cpan-extracted.git /shared/metacpan_git \
+                && touch /shared/metacpan_git/.init_complete
       containers:
-      - name: web
-        image: metacpan/metacpan-grep-front-end:latest
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 3000
-        envFrom:
-        - configMapRef:
-            name: grep
-        resources:
-          # Manage how much memory is allocated, could add cpu if we wanted
-          requests:
-            memory: "4072Mi"
-          limits:
-            memory: "4072Mi"
-        volumeMounts:
-        - name: gitrepo
-          mountPath: /shared/metacpan_git
-          readOnly: false
+        - name: web
+          image: metacpan/metacpan-grep-front-end:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: grep
+          resources:
+            # Manage how much memory is allocated, could add cpu if we wanted
+            requests:
+              memory: "4072Mi"
+            limits:
+              memory: "4072Mi"
+          volumeMounts:
+            - name: gitrepo
+              mountPath: /shared/metacpan_git
+              readOnly: false
       volumes:
         - name: gitrepo
           persistentVolumeClaim:

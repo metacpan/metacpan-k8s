@@ -16,6 +16,7 @@ local kp =
         namespace: 'monitoring',
       },
       prometheus+: {
+        namespaces: [],
         thanos: {
           version: '0.38.0',
           image: 'quay.io/thanos/thanos:v0.30.0',
@@ -58,6 +59,7 @@ local kp =
         },
         dashboards+:: {
           'grafana-dashboard-application.json': (import 'dashboards/grafana-dashboard-application.json'),
+          'grafana-dashboard-ingress-nginx.json': (import 'dashboards/grafana-dashboard-ingress-nginx.json'),
         },
         datasources: [
           {
