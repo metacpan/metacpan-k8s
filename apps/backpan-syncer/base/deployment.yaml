@@ -32,6 +32,9 @@ spec:
               mountPath: /mnt/backpan
             - name: b2-backpan-cache
               mountPath: /mnt/b2-backpan-cache
+            - name: rclone-conf
+              mountPath: /root/.config/rclone/rclone.conf
+              subPath: rclone-conf
       volumes:
         - name: backpan
           persistentVolumeClaim:
@@ -39,3 +42,6 @@ spec:
         - name: b2-backpan-cache
           persistentVolumeClaim:
             claimName: b2-backpan-cache
+        - name: rclone-conf
+          secret:
+            secretName: rclone-conf

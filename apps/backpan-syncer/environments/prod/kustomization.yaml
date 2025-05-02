@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: apps--backpan-syncer
 resources:
 - namespace.yaml
+- rclone-conf-sealedsecret.yaml
 - ../../base/
 images:
 - name: metacpan/metacpan-backpan-syncer
