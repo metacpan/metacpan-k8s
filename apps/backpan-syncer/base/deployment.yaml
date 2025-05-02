@@ -27,3 +27,15 @@ spec:
           # This container needs to use fuse so needs privileges
           securityContext:
             privileged: true
+          volumeMounts:
+            - name: backpan
+              mountPath: /mnt/backpan
+            - name: b2-backpan-cache
+              mountPath: /mnt/b2-backpan-cache
+      volumes:
+        - name: backpan
+          persistentVolumeClaim:
+            claimName: backpan
+        - name: b2-backpan-cache
+          persistentVolumeClaim:
+            claimName: b2-backpan-cache
