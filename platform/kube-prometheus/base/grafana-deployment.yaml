@@ -80,6 +80,9 @@ spec:
         - mountPath: /grafana-dashboard-definitions/0/grafana-dashboard-application
           name: grafana-dashboard-grafana-dashboard-application
           readOnly: false
+        - mountPath: /grafana-dashboard-definitions/0/grafana-dashboard-ingress-nginx-controller
+          name: grafana-dashboard-grafana-dashboard-ingress-nginx-controller
+          readOnly: false
         - mountPath: /grafana-dashboard-definitions/0/grafana-dashboard-ingress-nginx
           name: grafana-dashboard-grafana-dashboard-ingress-nginx
           readOnly: false
@@ -187,6 +190,9 @@ spec:
       - configMap:
           name: grafana-dashboard-grafana-dashboard-application
         name: grafana-dashboard-grafana-dashboard-application
+      - configMap:
+          name: grafana-dashboard-grafana-dashboard-ingress-nginx-controller
+        name: grafana-dashboard-grafana-dashboard-ingress-nginx-controller
       - configMap:
           name: grafana-dashboard-grafana-dashboard-ingress-nginx
         name: grafana-dashboard-grafana-dashboard-ingress-nginx
