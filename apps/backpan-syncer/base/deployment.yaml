@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backpan-syncer
+  labels:
+    app: backpan-syncer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backpan-syncer
+  template:
+    metadata:
+      labels:
+        app: backpan-syncer
+    spec:
+      containers:
+        - name: backpan-syncer
+          image: metacpan/metacpan-backpan-syncer:latest
+          imagePullPolicy: Always
+          # Should change to /sbin/run.sh once data is sorted
+          command: ["sh"]
+          args:
+            - "-c"
+            - "/usr/bin/sleep infinity"
+          # This container needs to use fuse so needs privileges
+          securityContext:
+            privileged: true
