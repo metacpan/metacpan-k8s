@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name:  apps--backpan-syncer
+  namespace: argocd
+spec:
+  project: backpan-syncer
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: main
+    path: apps/backpan-syncer/environments/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace:  apps--backpan-syncer

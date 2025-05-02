@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: backpan-syncer
+  namespace: argocd
+spec:
+  # Project description
+  description: Syncing of BackPan + CPAN.org updates to B2
+
+  sourceRepos:
+  - '*'
+
+  clusterResourceWhitelist:
+    - group: ''
+      kind: 'Namespace'
+
+  destinations:
+    - namespace: apps--backpan-syncer
+      server: https://kubernetes.default.svc
+      name: in-cluster
