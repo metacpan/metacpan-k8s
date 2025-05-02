@@ -48,6 +48,22 @@ spec:
             - name: gitrepo
               mountPath: /shared/metacpan_git
               readOnly: false
+        - name: repo-refresh
+          image: bitnami/git:latest
+          command:
+            - sh
+            - -c
+            - |-
+              [ -f /shared/metacpan_git/.init_complete ] \
+              && cd /shared/metacpan_git \
+              && while true; do
+                git fetch origin && git reset --hard origin/master
+                sleep 15m
+              done
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: gitrepo
+              mountPath: /shared/metacpan_git
       volumes:
         - name: gitrepo
           persistentVolumeClaim:
