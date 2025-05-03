@@ -22,6 +22,8 @@ loki:
     retention_period: 672h # 28 days retention
   querier:
     max_concurrent: 4
+  ingester:
+    chunk_encoding: snappy
 
   compactor:
     working_directory: /var/loki/retention
