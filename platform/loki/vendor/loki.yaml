@@ -188,6 +188,8 @@ data:
       scheduler_address: ""
     index_gateway:
       mode: simple
+    ingester:
+      chunk_encoding: snappy
     limits_config:
       allow_structured_metadata: true
       max_cache_freshness_per_query: 10m
@@ -1028,7 +1030,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 198df16e3a4209aca4d60f10a87eb4b55be471ae0f55f8c72b2c5700ac58ef72
+        checksum/config: d682338b893a6ef856911ffb3dd9d0365c1bc8f02b5be47aef5b34ee9bc1b483
       labels:
         app.kubernetes.io/part-of: memberlist
         app.kubernetes.io/name: loki
@@ -1158,7 +1160,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 198df16e3a4209aca4d60f10a87eb4b55be471ae0f55f8c72b2c5700ac58ef72
+        checksum/config: d682338b893a6ef856911ffb3dd9d0365c1bc8f02b5be47aef5b34ee9bc1b483
       labels:
         helm.sh/chart: loki-6.29.0
         app.kubernetes.io/name: loki
@@ -1529,7 +1531,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 198df16e3a4209aca4d60f10a87eb4b55be471ae0f55f8c72b2c5700ac58ef72
+        checksum/config: d682338b893a6ef856911ffb3dd9d0365c1bc8f02b5be47aef5b34ee9bc1b483
       labels:
         helm.sh/chart: loki-6.29.0
         app.kubernetes.io/name: loki
