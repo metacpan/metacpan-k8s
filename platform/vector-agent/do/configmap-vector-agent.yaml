@@ -1,4 +1,3 @@
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -37,16 +36,14 @@ data:
           - host_metrics
           - internal_metrics
         address: 0.0.0.0:9090
-      loki:
-        type: loki
-        inputs:
-          - kubernetes_logs
+      # Sink for other Kubernetes logs
+      loki_kubernetes:
+        type: "loki"
+        inputs: ["process_other_logs"]
         endpoint: http://loki-write.loki.svc.cluster.local:3100
         out_of_order_action: accept
         encoding:
-          codec: json
-        healthcheck:
-          enabled: false
+          codec: "json"
         labels:
           source_type: "{{ .source_type }}"
           namespace: "{{ kubernetes.pod_namespace }}"
@@ -56,3 +53,78 @@ data:
           node: "{{ kubernetes.pod_node_name }}"
           stream: "{{ .stream }}"
           forwarder: vector-agent
+          log_type: "{{ log_type }}"
+        healthcheck:
+          enabled: true
+        # Sink for ingress-nginx logs
+      loki_nginx:
+        type: "loki"
+        inputs: ["parse_nginx"]
+        endpoint: http://loki-write.loki.svc.cluster.local:3100
+        out_of_order_action: accept
+        encoding:
+          codec: "json"
+        labels:
+          app: "ingress-nginx"
+          source_type: "{{ .source_type }}"
+          namespace: "{{ kubernetes.pod_namespace }}"
+          container: "{{ kubernetes.container_name }}"
+          pod: "{{ kubernetes.pod_name }}"
+          container_name: "{{ kubernetes.container_name }}"
+          node: "{{ kubernetes.pod_node_name }}"
+          stream: "{{ .stream }}"
+          forwarder: vector-agent
+          log_type: "{{ log_type }}"
+          host: "{{ host }}"
+          status: "{{ status }}"
+          method: "{{ method }}"
+        healthcheck:
+          enabled: true
+
+    transforms:
+      # Filter and process ingress-nginx logs
+      filter_nginx:
+        type: "filter"
+        inputs: ["kubernetes_logs"]
+        condition: '.kubernetes.container_name == "controller" && .kubernetes.pod_namespace == "ingress-nginx"'
+
+      parse_nginx:
+        type: "remap"
+        inputs: ["filter_nginx"]
+        source: |
+          .log_type = "ingress-nginx"
+          # Parse the log line which is in the .message field
+          if is_string(.message) && contains(string!(.message), "{") {
+            parsed, err = parse_json(.message)
+            if err != null {
+              log("Failed to parse JSON: " + err + "\n" + string!(.message), level: "info")
+              .parse_error = true
+            } else {
+              # Merge the parsed fields into the root document
+              . = merge!(., parsed)
+            }
+          }
+
+          # Handle timestamp if present
+          if exists(.time) {
+            .timestamp = parse_timestamp!(.time, format: "%Y-%m-%dT%H:%M:%S%z")
+          }
+
+          # Ensure all label fields exist to prevent null labels
+          if !exists(.host) { .host = "unknown" }
+          if !exists(.status) { .status = 0 }
+          if !exists(.method) { .method = "unknown" }
+
+      # Filter for all other Kubernetes logs
+      filter_other_logs:
+        type: "filter"
+        inputs: ["kubernetes_logs"]
+        condition: '.kubernetes.container_name != "controller" || .kubernetes.pod_namespace != "ingress-nginx"'
+
+      # Process other Kubernetes logs
+      process_other_logs:
+        type: "remap"
+        inputs: ["filter_other_logs"]
+        source: |
+          # Add a log type for non-nginx logs
+          .log_type = "kubernetes"
