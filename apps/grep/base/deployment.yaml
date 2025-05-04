@@ -21,7 +21,7 @@ spec:
           imagePullPolicy: Always
           volumeMounts:
             - name: gitrepo
-              mountPath: /shared/metacpan_git
+              mountPath: /shared
           command:
             - sh
             - -c
@@ -46,7 +46,7 @@ spec:
               memory: "4072Mi"
           volumeMounts:
             - name: gitrepo
-              mountPath: /shared/metacpan_git
+              mountPath: /shared
               readOnly: false
         - name: repo-refresh
           image: bitnami/git:latest
@@ -63,7 +63,7 @@ spec:
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: gitrepo
-              mountPath: /shared/metacpan_git
+              mountPath: /shared
       volumes:
         - name: gitrepo
           persistentVolumeClaim:
