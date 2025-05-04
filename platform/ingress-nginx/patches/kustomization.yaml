@@ -5,6 +5,7 @@ resources:
   - service.yaml
   - servicemonitor.yaml
 patches:
+  - path: configmap.yaml
   - patch: |-
       apiVersion: v1
       kind: Service
