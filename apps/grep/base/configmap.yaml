@@ -6,3 +6,4 @@ metadata:
 data:
   GREP_SITE_PORT: "5005"
   GREP_PLACKUP_SERVER_ARGS: "-E production-docker"
+  APP_ENV: production
