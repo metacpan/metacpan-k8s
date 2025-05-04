@@ -59,7 +59,13 @@ spec:
               [ -f /shared/metacpan_git/.init_complete ] \
               && cd /shared/metacpan_git \
               && while true; do
-                git fetch origin && git reset --hard origin/master
+                git fetch origin
+                if [ "$(git rev-parse HEAD)" != "$(git rev-parse origin/master)" ]; then
+                  git reset --hard origin/master
+                  echo "Reset to origin/master"
+                else
+                  echo "Already up-to-date with origin/master"
+                fi
                 sleep 15m
               done
           imagePullPolicy: IfNotPresent
