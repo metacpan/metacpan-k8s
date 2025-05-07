@@ -37,7 +37,7 @@ stringData:
                 "name": "loki",
                 "orgId": 1,
                 "type": "loki",
-                "url": "http://loki-read.loki.svc:3100",
+                "url": "http://loki-gateway.loki.svc:80",
                 "version": 1
             }
         ]

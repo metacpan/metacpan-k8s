@@ -86,7 +86,7 @@ local kp =
             type: 'loki',
             access: 'proxy',
             orgId: 1,
-            url: 'http://loki-read.loki.svc:3100',
+            url: 'http://loki-gateway.loki.svc:80',
             version: 1,
             editable: false,
           },
