@@ -24,7 +24,7 @@ spec:
           image: metacpan/metacpan-web:latest
           imagePullPolicy: Always
           command: [ "/uwsgi.sh" ]
-          args: [ "--http-socket", ":5001" ]
+          args: [ "--http-socket", ":5001", "--stats", "127.0.0.1:9191", "--stats-http"  ]
           ports:
             - containerPort: 5001
           resources:
