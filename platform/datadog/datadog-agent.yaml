@@ -11,7 +11,12 @@ spec:
       apiSecret:
         secretName: "datadog-secret"
         keyName: "api-key"
+    originDetectionUnified:
+      enabled: true
   features:
     logCollection:
       enabled: true
       containerCollectAll: true
+    dogstatsd:
+      hostPortConfig:
+        enabled: true
