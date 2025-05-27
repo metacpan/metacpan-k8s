@@ -93,6 +93,11 @@ spec:
             - name: metacpan-web-local
               mountPath: /app/metacpan_web_local.conf
               subPath: metacpan_web_local.conf
+          env:
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
       volumes:
         - name: metacpan-web-local
           secret:
