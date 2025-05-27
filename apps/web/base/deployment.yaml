@@ -20,13 +20,62 @@ spec:
         app: web
     spec:
       containers:
+        - name: anubis
+          image: ghcr.io/techarohq/anubis:latest
+          imagePullPolicy: Always
+          env:
+            - name: "BIND"
+              value: ":8080"
+            - name: "DIFFICULTY"
+              value: "4"
+            - name: ED25519_PRIVATE_KEY_HEX
+              valueFrom:
+                secretKeyRef:
+                  name: anubis-key
+                  key: ED25519_PRIVATE_KEY_HEX
+            - name: "METRICS_BIND"
+              value: ":9090"
+            - name: "SERVE_ROBOTS_TXT"
+              value: "true"
+            - name: "TARGET"
+              value: "http://localhost:5001"
+            - name: "OG_PASSTHROUGH"
+              value: "true"
+            - name: "OG_EXPIRY_TIME"
+              value: "24h"
+          resources:
+            limits:
+              cpu: 750m
+              memory: 256Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          ports:
+            - name: anubis
+              containerPort: 8080
+              protocol: TCP
+            - name: anubis-metrics
+              containerPort: 9090
+              protocol: TCP
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
         - name: web
           image: metacpan/metacpan-web:latest
           imagePullPolicy: Always
-          command: [ "/uwsgi.sh" ]
-          args: [ "--http-socket", ":5001" ]
+          command: ["/uwsgi.sh"]
+          args: ["--http-socket", ":5001"]
           ports:
-            - containerPort: 5001
+            - name: http
+              containerPort: 5001
+              protocol: TCP
           resources:
             # Manage how much memory is allocated, could add cpu if we wanted
             requests:
