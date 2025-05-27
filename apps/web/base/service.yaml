@@ -5,6 +5,6 @@ metadata:
 spec:
   ports:
     - port: 80
-      targetPort: 5001
+      targetPort: http
   selector:
     app: web
