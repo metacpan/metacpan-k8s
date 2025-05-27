@@ -24,6 +24,7 @@ loki:
     max_concurrent: 4
   ingester:
     chunk_encoding: snappy
+    max_chunk_age: 2h
 
   compactor:
     working_directory: /var/loki/retention

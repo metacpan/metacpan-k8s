@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := help
 
 # Default Loki version
-DEFAULT_VERSION := 6.29.0
+DEFAULT_VERSION := 6.30.0
 LOKI_VERSION ?= $(DEFAULT_VERSION)
 LOKI_OUTPUT_YAML := vendor/loki.yaml
 VALUES_FILE := $(CURDIR)/values.yaml
