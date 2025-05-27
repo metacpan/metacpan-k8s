@@ -77,6 +77,8 @@ spec:
             - "--stats"
             - ":9191"
             - "--stats-http"
+            - "--reload-on-rss"
+            - "225"
           ports:
             - name: http
               containerPort: 5001
