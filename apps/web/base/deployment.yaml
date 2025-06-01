@@ -86,9 +86,9 @@ spec:
           resources:
             # Manage how much memory is allocated, could add cpu if we wanted
             requests:
-              memory: "3072Mi"
+              memory: "5000Mi"
             limits:
-              memory: "3072Mi"
+              memory: "5000Mi"
           volumeMounts:
             - name: metacpan-web-local
               mountPath: /app/metacpan_web_local.conf
