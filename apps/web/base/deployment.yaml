@@ -10,7 +10,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
-  replicas: 3
+  replicas: 6
   selector:
     matchLabels:
       app: web
