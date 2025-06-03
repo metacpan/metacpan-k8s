@@ -43,6 +43,8 @@ spec:
               value: "true"
             - name: "OG_EXPIRY_TIME"
               value: "24h"
+            - name: "REDIRECT_DOMAINS"
+              value: "web.do.metacpan.org,metacpan.org,www.metacpan.org"
           resources:
             limits:
               cpu: 750m
