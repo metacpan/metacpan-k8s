@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: apps--web
 images:
 - name: docker.io/metacpan/metacpan-web
-  newTag: sha-65fe1f33374ff888835f7a593a25bf9d572f24b5
+  newTag: sha-9d427fc43be0b8a4b10ba1e8a5c8e4ef70edd53b
 - name: metacpan/metacpan-web
   newTag: latest
 resources:
