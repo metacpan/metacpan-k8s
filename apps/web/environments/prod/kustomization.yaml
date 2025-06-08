@@ -2,8 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: apps--web
 images:
+- name: docker.io/metacpan/metacpan-web
+  newTag: sha-65fe1f33374ff888835f7a593a25bf9d572f24b5
 - name: metacpan/metacpan-web
-  newTag: sha-8da5b2190881fd15ce259c6207386cd869d74403
+  newTag: latest
 resources:
 - fastly-api_sealedsecret.yaml
 - purge-fastly-cache.yaml
