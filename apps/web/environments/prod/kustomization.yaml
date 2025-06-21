@@ -4,8 +4,6 @@ namespace: apps--web
 images:
 - name: docker.io/metacpan/metacpan-web
   newTag: sha-f6e39af8fab4398680176236bf4459d540d59703
-- name: metacpan/metacpan-web
-  newTag: latest
 resources:
 - fastly-api_sealedsecret.yaml
 - purge-fastly-cache.yaml

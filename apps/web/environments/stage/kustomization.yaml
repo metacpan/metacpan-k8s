@@ -8,6 +8,6 @@ resources:
 - ingress.yaml
 - namespace.yaml
 images:
-- name: metacpan/metacpan-web
+- name: docker.io/metacpan/metacpan-web
   newTag: 6796747a21beb1feeed5bb7cc8f52b581299c918
 

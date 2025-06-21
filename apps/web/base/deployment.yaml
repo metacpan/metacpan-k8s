@@ -70,7 +70,7 @@ spec:
             seccompProfile:
               type: RuntimeDefault
         - name: web
-          image: metacpan/metacpan-web:latest
+          image: docker.io/metacpan/metacpan-web:latest
           imagePullPolicy: Always
           command: ["/uwsgi.sh"]
           args:

@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: apps--testsmoke
 images:
-- name: metacpan/metacpan-web
+- name: docker.io/metacpan/metacpan-web
   newTag: sha-7e3035cd0a9729fef34911f3246632b52b6df76d
 resources:
 - namespace.yaml
