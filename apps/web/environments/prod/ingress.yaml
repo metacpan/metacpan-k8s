@@ -15,6 +15,13 @@ spec:
       http:
         paths:
           - pathType: Prefix
+            path: "/search"
+            backend:
+              service:
+                name: web-search
+                port:
+                  number: 80
+          - pathType: Prefix
             path: "/"
             backend:
               service:
@@ -25,6 +32,13 @@ spec:
       http:
         paths:
           - pathType: Prefix
+            path: "/search"
+            backend:
+              service:
+                name: web-search
+                port:
+                  number: 80
+          - pathType: Prefix
             path: "/"
             backend:
               service:
@@ -34,6 +48,13 @@ spec:
     - host: metacpan.org
       http:
         paths:
+          - pathType: Prefix
+            path: "/search"
+            backend:
+              service:
+                name: web-search
+                port:
+                  number: 80
           - pathType: Prefix
             path: "/"
             backend:

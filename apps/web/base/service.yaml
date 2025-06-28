@@ -8,3 +8,14 @@ spec:
       targetPort: http
   selector:
     app: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-search
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+  selector:
+    app: web-search
