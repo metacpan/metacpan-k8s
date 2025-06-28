@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   # Project description
-  description: MetaCPAN api UI
+  description: MetaCPAN API
 
   sourceRepos:
   - '*'
