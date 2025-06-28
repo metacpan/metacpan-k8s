@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: api
+  namespace: argocd
+spec:
+  # Project description
+  description: MetaCPAN api UI
+
+  sourceRepos:
+  - '*'
+
+  clusterResourceWhitelist:
+    - group: ''
+      kind: 'Namespace'
+
+  destinations:
+    - namespace: apps--mc-api
+      server: https://kubernetes.default.svc
+      name: in-cluster

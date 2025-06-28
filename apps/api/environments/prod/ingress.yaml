@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - api.do.metacpan.org
+      secretName: api-tls
+  rules:
+    - host: api.do.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/search"
+            backend:
+              service:
+                name: api-search
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: api
+                port:
+                  number: 80

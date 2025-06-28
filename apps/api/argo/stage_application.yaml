@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stage--apps--mc-api
+  namespace: argocd
+spec:
+  project: api
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: main
+    path: apps/api/environments/stage
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: stage--apps--mc-api
