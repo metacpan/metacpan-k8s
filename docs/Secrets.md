@@ -14,3 +14,13 @@ kubectl create secret generic docker-local-yaml \
   | \
   kubeseal --format yaml -n apps--testsmoke > sealed-secret.yaml
 ```
+
+Working example....
+```
+kubectl create secret generic \
+  metacpan-server-local \
+  --from-file=../metacpan-conf-private/metacpan-api/metacpan_server_local.conf \
+  -n apps--mc-api -o yaml --dry-run=client \
+  | kubeseal --format yaml \
+  -n apps--mc-api > apps/api/environments/prod/prod_sealedsecret.yaml
+```
