@@ -5,7 +5,6 @@ images:
 - name: docker.io/metacpan/metacpan-api
   newTag: latest
 resources:
-- fastly-api_sealedsecret.yaml
 - prod_sealedsecret.yaml
 - ingress.yaml
 - ../../base/
