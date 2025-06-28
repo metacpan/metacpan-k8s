@@ -12,3 +12,8 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: apps--mc-api
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: apps--mc-api
