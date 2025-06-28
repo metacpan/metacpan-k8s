@@ -10,7 +10,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: api
@@ -67,7 +67,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: api-search
