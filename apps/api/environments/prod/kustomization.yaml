@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: apps--mc-api
 images:
 - name: docker.io/metacpan/metacpan-api
-  newTag: sha-9ca309aed4414d1ef21c762e023924340af98d1e
+  newTag: latest
 resources:
 - fastly-api_sealedsecret.yaml
 - prod_sealedsecret.yaml
