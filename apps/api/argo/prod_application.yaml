@@ -7,7 +7,7 @@ spec:
   project: api
   source:
     repoURL: https://github.com/metacpan/metacpan-k8s
-    targetRevision: main
+    targetRevision: leo/setup_api
     path: apps/api/environments/prod
   destination:
     server: https://kubernetes.default.svc
