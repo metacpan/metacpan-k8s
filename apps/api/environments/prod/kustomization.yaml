@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: apps--mc-api
 images:
 - name: docker.io/metacpan/metacpan-api
-  newTag: latest
+  newTag: latest-slim
 resources:
 - prod_sealedsecret.yaml
 - ingress.yaml
