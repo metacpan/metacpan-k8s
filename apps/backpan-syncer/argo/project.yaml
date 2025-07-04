@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   # Project description
-  description: Syncing of BackPan + CPAN.org updates to B2
+  description: Syncing of BackPan + CPAN.org updates to Fastly
 
   sourceRepos:
   - '*'

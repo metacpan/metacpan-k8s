@@ -22,15 +22,16 @@ spec:
           command: ["sh"]
           args:
             - "-c"
-            - "/sbin/run.sh"
+            - "/bin/bash"
+#            - "/sbin/run.sh"
           # This container needs to use fuse so needs privileges
           securityContext:
             privileged: true
           volumeMounts:
             - name: backpan
               mountPath: /mnt/backpan
-            - name: b2-backpan-cache
-              mountPath: /mnt/b2-backpan-cache
+            - name: backpan-obj-store-cache
+              mountPath: /mnt/backpan-obj-store-cache
             - name: rclone-conf
               mountPath: /root/.config/rclone/rclone.conf
               subPath: rclone-conf
@@ -38,9 +39,9 @@ spec:
         - name: backpan
           persistentVolumeClaim:
             claimName: backpan
-        - name: b2-backpan-cache
+        - name: backpan-obj-store-cache
           persistentVolumeClaim:
-            claimName: b2-backpan-cache
+            claimName: backpan-obj-store-cache
         - name: rclone-conf
           secret:
             secretName: rclone-conf

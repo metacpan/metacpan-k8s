@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: b2-backpan-cache
+  name: backpan-obj-store-cache
 spec:
   accessModes:
     - ReadWriteOnce
