@@ -22,7 +22,7 @@ spec:
           command: ["sh"]
           args:
             - "-c"
-            - "/bin/bash"
+            - "while true; do sleep 30; done"
 #            - "/sbin/run.sh"
           # This container needs to use fuse so needs privileges
           securityContext:
