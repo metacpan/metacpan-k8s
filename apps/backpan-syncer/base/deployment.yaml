@@ -28,13 +28,13 @@ spec:
           securityContext:
             privileged: true
           volumeMounts:
-            - name: backpan
+            - name: backpan 
               mountPath: /mnt/backpan
             - name: backpan-obj-store-cache
               mountPath: /mnt/backpan-obj-store-cache
             - name: rclone-conf
               mountPath: /root/.config/rclone/rclone.conf
-              subPath: rclone-conf
+              subPath: rclone.conf
       volumes:
         - name: backpan
           persistentVolumeClaim:
