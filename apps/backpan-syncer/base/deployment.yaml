@@ -7,6 +7,11 @@ metadata:
     app: backpan-syncer
 spec:
   replicas: 1
+  strategy:
+    # We want to ensure that the backpan-syncer is always running
+    # so we use Recreate strategy to avoid issues with multiple instances
+    # trying to access the same volumes
+    type: Recreate
   selector:
     matchLabels:
       app: backpan-syncer
