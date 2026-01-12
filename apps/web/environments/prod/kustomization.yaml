@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: apps--web
 images:
 - name: docker.io/metacpan/metacpan-web
-  newTag: sha-df18f1861c6a7b43655a7b2afa5f4822fac63b47
+  newTag: sha-a6a2e33c51445fbda0e3d2e729fa3b90333c4ae2
 resources:
 - fastly-api_sealedsecret.yaml
 - purge-fastly-cache.yaml
