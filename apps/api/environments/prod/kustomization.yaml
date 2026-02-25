@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: apps--mc-api
 images:
 - name: docker.io/metacpan/metacpan-api
-  newTag: sha-4aa96ba36762b576802d160402daae051181e08f
+  newTag: sha-bb137e87b1853b527abfd6e4e84eb734e9798668
 resources:
 - prod_sealedsecret.yaml
 - ingress.yaml
