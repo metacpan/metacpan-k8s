@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: uat--web
+  namespace: argocd
+spec:
+  project: web
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: cloudfleet
+    path: apps/web/environments/uat
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: uat--web
