@@ -36,16 +36,16 @@ patches:
         path: /spec/template/spec/containers/-
         value:
           name: web-staging
-          image: metacpan/metacpan-grep-front-end:sha-b26831ac598cd143a3e97f1dd6a7755c08f98b39
+          image: docker.io/metacpan/metacpan-grep-front-end:b26831ac598cd143a3e97f1dd6a7755c08f98b39
           imagePullPolicy: Always
           ports:
             - containerPort: 3001
           command: ["/bin/bash", "-e", "-c"]
           args:
             - |
-              echo "Starting staging grep frontend on port 3001..."
               cd /metacpan-grep-front-end
-              plackup -p 3001 ${PLACKUP_ARGS} bin/app.psgi
+              sed -i 's/plackup -p 3000/plackup -p 3001/' docker-entrypoint.sh
+              ./docker-entrypoint.sh serve
           envFrom:
             - configMapRef:
                 name: grep
