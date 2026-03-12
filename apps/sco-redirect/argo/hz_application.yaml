@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hz--sco-redirect
+  namespace: argocd
+spec:
+  project: sco-redirect
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: cloudfleet
+    path: apps/sco-redirect/environments/hz
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps--sco-redirect
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

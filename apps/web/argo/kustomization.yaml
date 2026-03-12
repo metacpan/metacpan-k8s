@@ -5,4 +5,4 @@ resources:
   - ./project.yaml
   - ./stage_application.yaml
   - ./prod_application.yaml
-  - ./uat_application.yaml
+  - ./hz_application.yaml

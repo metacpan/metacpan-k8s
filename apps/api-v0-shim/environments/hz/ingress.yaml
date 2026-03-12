@@ -1,23 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: web
+  name: api-v0-shim
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-production
+    projectcontour.io/response-timeout: "60s"
 spec:
   ingressClassName: contour
   tls:
     - hosts:
-        - web-uat.metacpan.org
-      secretName: web-uat-tls
+        - api-v0-shim.hz.metacpan.org
+      secretName: api-v0-shim-tls
   rules:
-    - host: web-uat.metacpan.org
+    - host: api-v0-shim.hz.metacpan.org
       http:
         paths:
           - pathType: Prefix
             path: "/"
             backend:
               service:
-                name: web
+                name: api-v0-shim
                 port:
                   number: 80

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grep-staging
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    projectcontour.io/response-timeout: "120s"
+spec:
+  ingressClassName: contour
+  tls:
+    - hosts:
+        - grep-staging.hz.metacpan.org
+      secretName: grep-staging-tls
+  rules:
+    - host: grep-staging.hz.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: grep-staging
+                port:
+                  number: 80

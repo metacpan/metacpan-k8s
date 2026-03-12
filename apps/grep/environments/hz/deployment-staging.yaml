@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grep-staging
+  labels:
+    app: grep-staging
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: grep-staging
+  template:
+    metadata:
+      labels:
+        app: grep-staging
+    spec:
+      containers:
+        - name: web
+          image: metacpan/metacpan-grep-front-end:sha-b26831ac598cd143a3e97f1dd6a7755c08f98b39
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: grep
+          resources:
+            requests:
+              memory: "4072Mi"
+            limits:
+              memory: "4072Mi"
+          volumeMounts:
+            - name: gitrepo
+              mountPath: /shared
+              readOnly: false
+      volumes:
+        - name: gitrepo
+          persistentVolumeClaim:
+            claimName: gitrepo-pv
