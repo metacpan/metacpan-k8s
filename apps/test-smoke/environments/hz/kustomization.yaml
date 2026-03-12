@@ -5,3 +5,20 @@ resources:
   - namespace.yaml
   - ingress.yaml
   - ../../base/
+patches:
+  - target:
+      kind: Deployment
+      name: testsmoke-api
+    patch: |
+      - op: add
+        path: /spec/template/metadata/annotations
+        value:
+          karpenter.sh/do-not-disrupt: "true"
+  - target:
+      kind: Deployment
+      name: testsmoke-web
+    patch: |
+      - op: add
+        path: /spec/template/metadata/annotations
+        value:
+          karpenter.sh/do-not-disrupt: "true"
