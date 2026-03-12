@@ -15,7 +15,7 @@ spec:
           values: ["amd64"]
         - key: node.kubernetes.io/instance-type
           operator: In
-          values: ["cx32"]
+          values: ["cx32", "cx42"]
   limits:
     cpu: "24"
   disruption:

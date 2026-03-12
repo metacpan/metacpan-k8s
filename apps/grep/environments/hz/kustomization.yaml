@@ -41,9 +41,9 @@ patches:
                 name: grep
           resources:
             requests:
-              memory: "2000Mi"
+              memory: "10Gi"
             limits:
-              memory: "4072Mi"
+              memory: "10Gi"
           volumeMounts:
             - name: gitrepo
               mountPath: /shared
