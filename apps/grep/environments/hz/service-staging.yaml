@@ -5,6 +5,6 @@ metadata:
 spec:
   ports:
     - port: 80
-      targetPort: 3000
+      targetPort: 3001
   selector:
-    app: grep-staging
+    app: grep
