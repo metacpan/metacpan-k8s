@@ -22,6 +22,16 @@ patches:
       kind: Deployment
       name: grep
     patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/command
+        value: ["sleep", "infinity"]
+      - op: replace
+        path: /spec/template/spec/containers/0/resources
+        value:
+          requests:
+            memory: "64Mi"
+          limits:
+            memory: "64Mi"
       - op: add
         path: /spec/template/spec/containers/-
         value:
@@ -41,9 +51,9 @@ patches:
                 name: grep
           resources:
             requests:
-              memory: "10Gi"
+              memory: "6Gi"
             limits:
-              memory: "10Gi"
+              memory: "6Gi"
           volumeMounts:
             - name: gitrepo
               mountPath: /shared
