@@ -14,11 +14,11 @@ patches:
     patch: |
       - op: replace
         path: /spec/storageClassName
-        value: rook-cephfs-durable
+        value: hcloud-volumes
   - target:
       kind: PersistentVolumeClaim
       name: backpan-obj-store-cache
     patch: |
       - op: replace
         path: /spec/storageClassName
-        value: rook-cephfs-volatile
+        value: hcloud-volumes
