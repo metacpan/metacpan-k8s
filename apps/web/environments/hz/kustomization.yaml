@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps--web
+images:
+  - name: docker.io/metacpan/metacpan-web
+    newTag: sha-8c8ccc6b5e716272283478bbb0804b775dcc8fd1
+resources:
+  - namespace.yaml
+  - ingress.yaml
+  - ../../base/
+patches:
+  - target:
+      kind: Deployment
+      name: web
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 1
+      - op: remove
+        path: /spec/template/spec/volumes
+      - op: remove
+        path: /spec/template/spec/containers/0/volumeMounts
+      - op: remove
+        path: /spec/template/spec/containers/0/env
+      - op: replace
+        path: /spec/template/spec/containers/0/resources
+        value:
+          requests:
+            memory: "2000Mi"
+            cpu: "500m"
+          limits:
+            memory: "4000Mi"
+  - target:
+      kind: Deployment
+      name: web-search
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 0

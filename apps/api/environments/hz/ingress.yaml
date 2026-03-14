@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    projectcontour.io/response-timeout: "60s"
+spec:
+  ingressClassName: contour
+  tls:
+    - hosts:
+        - api.hz.metacpan.org
+      secretName: api-tls
+  rules:
+    - host: api.hz.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/search"
+            backend:
+              service:
+                name: api-search
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: api
+                port:
+                  number: 80

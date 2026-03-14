@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps--backpan-syncer
+resources:
+  - namespace.yaml
+  - rclone-conf-sealedsecret.yaml
+  - ../../base/
+images:
+  - name: metacpan/metacpan-backpan-syncer
+    newTag: latest
+patches:
+  - target:
+      kind: PersistentVolumeClaim
+      name: backpan
+    patch: |
+      - op: replace
+        path: /spec/storageClassName
+        value: hcloud-volumes
+  - target:
+      kind: PersistentVolumeClaim
+      name: backpan-obj-store-cache
+    patch: |
+      - op: replace
+        path: /spec/storageClassName
+        value: hcloud-volumes
+  - target:
+      kind: Deployment
+      name: backpan-syncer
+    patch: |
+      - op: add
+        path: /spec/template/metadata/annotations
+        value:
+          backup.velero.io/backup-volumes-excludes: backpan-obj-store-cache
