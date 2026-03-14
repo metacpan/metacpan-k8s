@@ -10,12 +10,33 @@ spec:
     chart: velero
     targetRevision: "8.*"
     helm:
-      valueFiles:
-        - $values/platform/velero/values-hz.yaml
-  additionalSources:
-    - repoURL: https://github.com/metacpan/metacpan-k8s
-      targetRevision: cloudfleet
-      ref: values
+      values: |
+        initContainers:
+          - name: velero-plugin-for-aws
+            image: velero/velero-plugin-for-aws:v1.11.0
+            volumeMounts:
+              - mountPath: /target
+                name: plugins
+
+        configuration:
+          backupStorageLocation:
+            - name: default
+              provider: aws
+              bucket: metacpan-backups
+              config:
+                region: fsn1
+                s3ForcePathStyle: "true"
+                s3Url: https://fsn1.your-objectstorage.com
+
+          volumeSnapshotLocation: []
+
+          defaultVolumesToFsBackup: true
+
+        deployNodeAgent: true
+
+        credentials:
+          useSecret: true
+          existingSecret: velero-s3-credentials
   destination:
     server: https://kubernetes.default.svc
     namespace: velero

@@ -9,7 +9,7 @@ configuration:
   backupStorageLocation:
     - name: default
       provider: aws
-      bucket: metacpan-velero-backups  # TODO: update with actual bucket name
+      bucket: metacpan-backups
       config:
         region: fsn1
         s3ForcePathStyle: "true"

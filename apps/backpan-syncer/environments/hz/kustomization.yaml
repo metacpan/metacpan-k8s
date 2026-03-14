@@ -22,3 +22,11 @@ patches:
       - op: replace
         path: /spec/storageClassName
         value: hcloud-volumes
+  - target:
+      kind: Deployment
+      name: backpan-syncer
+    patch: |
+      - op: add
+        path: /spec/template/metadata/annotations
+        value:
+          backup.velero.io/backup-volumes-excludes: backpan-obj-store-cache
