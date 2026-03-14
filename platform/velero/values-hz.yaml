@@ -1,0 +1,26 @@
+initContainers:
+  - name: velero-plugin-for-aws
+    image: velero/velero-plugin-for-aws:v1.11.0
+    volumeMounts:
+      - mountPath: /target
+        name: plugins
+
+configuration:
+  backupStorageLocation:
+    - name: default
+      provider: aws
+      bucket: metacpan-velero-backups  # TODO: update with actual bucket name
+      config:
+        region: fsn1
+        s3ForcePathStyle: "true"
+        s3Url: https://fsn1.your-objectstorage.com
+
+  volumeSnapshotLocation: []
+
+  defaultVolumesToFsBackup: true
+
+deployNodeAgent: true
+
+credentials:
+  useSecret: true
+  existingSecret: velero-s3-credentials

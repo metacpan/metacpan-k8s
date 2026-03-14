@@ -1,0 +1,12 @@
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: backpan-daily
+  namespace: velero
+spec:
+  schedule: "0 3 * * *"
+  template:
+    includedNamespaces:
+      - apps--backpan-syncer
+    defaultVolumesToFsBackup: true
+    ttl: 720h0m0s  # 30 days

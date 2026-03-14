@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hz--velero
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://vmware-tanzu.github.io/helm-charts
+    chart: velero
+    targetRevision: "8.*"
+    helm:
+      valueFiles:
+        - $values/platform/velero/values-hz.yaml
+  additionalSources:
+    - repoURL: https://github.com/metacpan/metacpan-k8s
+      targetRevision: cloudfleet
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: velero
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
