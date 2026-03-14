@@ -4,8 +4,6 @@ namespace: apps--grep
 resources:
   - namespace.yaml
   - ingress.yaml
-  - service-staging.yaml
-  - ingress-staging.yaml
   - ../../base/
 images:
   - name: metacpan/metacpan-grep-front-end
@@ -18,43 +16,3 @@ patches:
       - op: replace
         path: /spec/storageClassName
         value: hcloud-volumes
-  - target:
-      kind: Deployment
-      name: grep
-    patch: |
-      - op: replace
-        path: /spec/template/spec/containers/0/command
-        value: ["sleep", "infinity"]
-      - op: replace
-        path: /spec/template/spec/containers/0/resources
-        value:
-          requests:
-            memory: "64Mi"
-          limits:
-            memory: "64Mi"
-      - op: add
-        path: /spec/template/spec/containers/-
-        value:
-          name: web-staging
-          image: docker.io/metacpan/metacpan-grep-front-end:b26831ac598cd143a3e97f1dd6a7755c08f98b39
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 3001
-          command: ["/bin/bash", "-e", "-c"]
-          args:
-            - |
-              cd /metacpan-grep-front-end
-              sed -i 's/plackup -p 3000/plackup -p 3001/' docker-entrypoint.sh
-              ./docker-entrypoint.sh serve
-          envFrom:
-            - configMapRef:
-                name: grep
-          resources:
-            requests:
-              memory: "6Gi"
-            limits:
-              memory: "6Gi"
-          volumeMounts:
-            - name: gitrepo
-              mountPath: /shared
-              readOnly: false
