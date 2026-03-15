@@ -7,4 +7,4 @@ resources:
 - ../../base/
 images:
 - name: metacpan/metacpan-grep-front-end
-  newTag: sha-f2f6f895958d19497d055788511b7b89d998f389
+  newTag: sha-f53fee5cb00001295bdecbdcf8ae7b9af506a194
