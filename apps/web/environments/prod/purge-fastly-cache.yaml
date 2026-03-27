@@ -24,7 +24,7 @@ spec:
         - "fastly-soft-purge: 1"
         - -H
         - "Accept: application/json"
-        - "https://api.fastly.com/service/$(FASTLY_SERVICE_ID)/purge/content_type=text/html"
+        - "https://api.fastly.com/service/$(FASTLY_SERVICE_ID)/purge/content_type=text%2Fhtml"
         env:
         - name: FASTLY_SERVICE_ID
           valueFrom:
