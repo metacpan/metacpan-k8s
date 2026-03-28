@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps--api-v0-shim
+resources:
+  - namespace.yaml
+  - ingress.yaml
+  - ../../base/
+images:
+  - name: metacpan/metacpan-api-v0-shim
+    newTag: sha-9e4d6bcd03e866f68539095309d44f2ffc4ef71a
+patches:
+  - target:
+      kind: Deployment
+      name: api-v0-shim
+    patch: |
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          topology.kubernetes.io/zone: fsn1

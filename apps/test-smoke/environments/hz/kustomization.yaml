@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps--testsmoke
+resources:
+  - namespace.yaml
+  - ingress.yaml
+  - docker-local-sealedsecret.yaml
+  - ../../base/
+patches:
+  - target:
+      kind: Deployment
+      name: testsmoke-api
+    patch: |
+      - op: add
+        path: /spec/template/metadata/annotations
+        value:
+          karpenter.sh/do-not-disrupt: "true"
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          topology.kubernetes.io/zone: fsn1
+  - target:
+      kind: Deployment
+      name: testsmoke-web
+    patch: |
+      - op: add
+        path: /spec/template/metadata/annotations
+        value:
+          karpenter.sh/do-not-disrupt: "true"
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          topology.kubernetes.io/zone: fsn1
