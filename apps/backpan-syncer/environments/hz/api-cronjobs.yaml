@@ -1,0 +1,574 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-package
+spec:
+  schedule: "*/10 1-23 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: package
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-package
+                - /app/bin/metacpan
+                - package
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-package-cleanup
+spec:
+  schedule: "0 0 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: package-cleanup
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-package-cleanup
+                - /app/bin/metacpan
+                - package
+                - --clean_up
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-permission
+spec:
+  schedule: "*/10 1-23 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: permission
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-permission
+                - /app/bin/metacpan
+                - permission
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-permission-cleanup
+spec:
+  schedule: "0 0 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: permission-cleanup
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-permission-cleanup
+                - /app/bin/metacpan
+                - permission
+                - --clean_up
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-latest
+spec:
+  schedule: "*/30 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 3600
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: latest
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-latest
+                - /app/bin/metacpan
+                - latest
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-release
+spec:
+  schedule: "5 0 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 3600
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: release
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-release
+                - /app/bin/metacpan
+                - release
+                - --queue
+                - --skip
+                - --age
+                - "48"
+                - --detect_backpan
+                - --latest
+                - /home/metacpan/CPAN/authors/id/
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-session
+spec:
+  schedule: "30 3 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: session
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-session
+                - /app/bin/metacpan
+                - session
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-backup-purge
+spec:
+  schedule: "25 1 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: backup-purge
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-backup-purge
+                - /app/bin/metacpan
+                - backup
+                - --purge
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-tickets
+spec:
+  schedule: "12 3 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: tickets
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-tickets
+                - /app/bin/metacpan
+                - tickets
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-river
+spec:
+  schedule: "30 1 * * 0"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: river
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-river
+                - /app/bin/metacpan
+                - river
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-favorite-hourly
+spec:
+  schedule: "*/30 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: favorite-hourly
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-favorite-hourly
+                - /app/bin/metacpan
+                - favorite
+                - --check_missing
+                - --age
+                - "240"
+                - --queue
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-favorite-weekly
+spec:
+  schedule: "0 12 * * 0"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: favorite-weekly
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-favorite-weekly
+                - /app/bin/metacpan
+                - favorite
+                - --queue
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-contributor-daily
+spec:
+  schedule: "30 5 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: contributor-daily
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-contributor-daily
+                - /app/bin/metacpan
+                - contributor
+                - --age
+                - "2"
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-contributor-weekly
+spec:
+  schedule: "0 12 * * 0"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: contributor-weekly
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-contributor-weekly
+                - /app/bin/metacpan
+                - contributor
+                - --age
+                - "14"
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-cpantesters
+spec:
+  schedule: "42 */6 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: cpantesters
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-cpantesters
+                - /app/bin/metacpan
+                - cpantestersapi
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-external-cygwin
+spec:
+  schedule: "31 2 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: external-cygwin
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-external-cygwin
+                - /app/bin/metacpan
+                - external
+                - --external_source
+                - cygwin
+                - --email_to
+                - book@cpan.org
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api-scratch-cleanup
+spec:
+  schedule: "45 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 10
+      activeDeadlineSeconds: 1800
+      template:
+        spec:
+          serviceAccountName: api-cronjob
+          restartPolicy: OnFailure
+          containers:
+            - name: scratch-cleanup
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "/scripts/cronjob-wrapper.sh"]
+              args:
+                - api-scratch-cleanup
+                - find
+                - /mnt/scratch_disk
+                - -mindepth
+                - "1"
+                - -not
+                - -name
+                - lost+found
+                - -mmin
+                - "+45"
+                - -delete
+              volumeMounts:
+                - name: cronjob-wrapper
+                  mountPath: /scripts
+          volumes:
+            - name: cronjob-wrapper
+              configMap:
+                name: cronjob-wrapper
+                defaultMode: 0755

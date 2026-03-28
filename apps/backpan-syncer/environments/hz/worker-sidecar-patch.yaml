@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backpan-syncer
+spec:
+  template:
+    spec:
+      containers:
+        - name: api-worker
+          image: docker.io/metacpan/metacpan-api:minion-json-logging-20260325-023334
+          imagePullPolicy: Always
+          command: ["/app/bin/api.pl"]
+          args: ["minion", "worker", "-j", "1"]
+          resources:
+            requests:
+              memory: "3000Mi"
+            limits:
+              memory: "3000Mi"
+          volumeMounts:
+            - name: metacpan-server-local
+              mountPath: /app/metacpan_server_local.yaml
+              subPath: metacpan_server_local.yaml
+            - name: log4perl-hz
+              mountPath: /app/log4perl_hz.conf
+              subPath: log4perl_hz.conf
+            - name: backpan
+              mountPath: /home/metacpan/CPAN
+              readOnly: true
+            - name: scratch-disk
+              mountPath: /mnt/scratch_disk
+            - name: minion-sqlite
+              mountPath: /mnt/minion
+          env:
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+        - name: api-watcher
+          image: docker.io/metacpan/metacpan-api:minion-json-logging-20260325-023334
+          imagePullPolicy: Always
+          command: ["/app/bin/metacpan"]
+          args: ["watcher"]
+          resources:
+            requests:
+              memory: "500Mi"
+            limits:
+              memory: "500Mi"
+          volumeMounts:
+            - name: metacpan-server-local
+              mountPath: /app/metacpan_server_local.yaml
+              subPath: metacpan_server_local.yaml
+            - name: log4perl-hz
+              mountPath: /app/log4perl_hz.conf
+              subPath: log4perl_hz.conf
+            - name: backpan
+              mountPath: /home/metacpan/CPAN
+              readOnly: true
+            - name: minion-sqlite
+              mountPath: /mnt/minion
+          env:
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+      volumes:
+        - name: metacpan-server-local
+          secret:
+            secretName: metacpan-server-local
+        - name: log4perl-hz
+          configMap:
+            name: log4perl-hz
+        - name: scratch-disk
+          emptyDir: {}
+        - name: minion-sqlite
+          persistentVolumeClaim:
+            claimName: minion-sqlite
