@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hz--mc-api
+  namespace: argocd
+spec:
+  project: api
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: cloudfleet
+    path: apps/api/environments/hz
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps--mc-api
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

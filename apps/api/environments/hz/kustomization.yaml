@@ -1,0 +1,83 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps--mc-api
+images:
+  - name: docker.io/metacpan/metacpan-api
+    newTag: minion-json-logging-20260325-023334
+resources:
+  - namespace.yaml
+  - ingress.yaml
+  - api-sealedsecret.yaml
+  - extraction-cache-pvc.yaml
+  - cache-eviction-cronjob.yaml
+  - log4perl-configmap.yaml
+  - ../../base/
+patches:
+  - target:
+      kind: Deployment
+      name: api-search
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 0
+  - target:
+      kind: Deployment
+      name: api
+    patch: |
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          topology.kubernetes.io/zone: fsn1
+      - op: add
+        path: /spec/template/spec/securityContext
+        value:
+          fsGroup: 100
+      - op: replace
+        path: /spec/template/spec/containers/0/args
+        value:
+          - "--plugins"
+          - "http"
+          - "--http"
+          - ":5000"
+          - "--stats"
+          - ":9191"
+          - "--stats-http"
+          - "--reload-on-rss"
+          - "300"
+          - "--workers"
+          - "8"
+      - op: replace
+        path: /spec/template/spec/containers/0/resources
+        value:
+          requests:
+            memory: "2000Mi"
+          limits:
+            memory: "2000Mi"
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: extraction-cache
+          mountPath: /mnt/scratch_disk
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: extraction-cache
+          mountPath: /app/var/tmp
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: log4perl-hz
+          mountPath: /app/log4perl_hz.conf
+          subPath: log4perl_hz.conf
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: extraction-cache
+          persistentVolumeClaim:
+            claimName: extraction-cache
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: log4perl-hz
+          configMap:
+            name: log4perl-hz
