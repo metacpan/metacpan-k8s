@@ -1,0 +1,40 @@
+datadog:
+  site: datadoghq.eu
+  apiKeyExistingSecret: datadog-api-key
+  tags:
+    - "cluster:hz"
+  logs:
+    enabled: true
+    containerCollectAll: true
+  clusterAgent:
+    enabled: true
+    config:
+      clusterChecksEnabled: false
+    resources:
+      requests:
+        memory: "256Mi"
+      limits:
+        memory: "256Mi"
+  processAgent:
+    enabled: false
+  apm:
+    portEnabled: false
+  ignoreAutoConfig:
+    - ntp
+    - redisdb
+    - cilium
+  confd:
+    ntp.yaml: |-
+      init_config:
+      instances:
+        - hosts:
+            - pool.ntp.org
+  orchestratorExplorer:
+    enabled: false
+
+agents:
+  resources:
+    requests:
+      memory: "256Mi"
+    limits:
+      memory: "256Mi"
