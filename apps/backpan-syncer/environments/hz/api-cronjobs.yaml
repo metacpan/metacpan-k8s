@@ -68,7 +68,7 @@ kind: CronJob
 metadata:
   name: api-permission
 spec:
-  schedule: "*/10 1-23 * * *"
+  schedule: "5/10 1-23 * * *"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -100,7 +100,7 @@ kind: CronJob
 metadata:
   name: api-permission-cleanup
 spec:
-  schedule: "0 0 * * *"
+  schedule: "10 0 * * *"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -334,7 +334,7 @@ kind: CronJob
 metadata:
   name: api-favorite-hourly
 spec:
-  schedule: "*/30 * * * *"
+  schedule: "15/30 * * * *"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -370,7 +370,7 @@ kind: CronJob
 metadata:
   name: api-favorite-weekly
 spec:
-  schedule: "0 12 * * 0"
+  schedule: "0 4 * * 0"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -437,7 +437,7 @@ kind: CronJob
 metadata:
   name: api-contributor-weekly
 spec:
-  schedule: "0 12 * * 0"
+  schedule: "30 4 * * 0"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
