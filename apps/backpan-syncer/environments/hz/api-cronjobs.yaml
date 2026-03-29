@@ -151,6 +151,7 @@ spec:
                 - api-latest
                 - /app/bin/metacpan
                 - latest
+                - --queue
               volumeMounts:
                 - name: cronjob-wrapper
                   mountPath: /scripts
