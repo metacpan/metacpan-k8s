@@ -13,9 +13,9 @@ spec:
           args: ["minion", "worker", "-j", "1"]
           resources:
             requests:
-              memory: "3000Mi"
+              memory: "4000Mi"
             limits:
-              memory: "3000Mi"
+              memory: "4000Mi"
           volumeMounts:
             - name: metacpan-server-local
               mountPath: /app/metacpan_server_local.yaml
