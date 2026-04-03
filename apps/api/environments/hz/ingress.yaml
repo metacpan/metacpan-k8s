@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    projectcontour.io/response-timeout: "60s"
+    projectcontour.io/num-retries: "2"
+    projectcontour.io/retry-on: "5xx,reset,connect-failure"
+spec:
+  ingressClassName: contour
+  tls:
+    - hosts:
+        - api.hz.metacpan.org
+      secretName: api-tls
+  rules:
+    - host: api.hz.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: api
+                port:
+                  number: 80

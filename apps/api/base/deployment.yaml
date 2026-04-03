@@ -44,8 +44,8 @@ spec:
               memory: "5000Mi"
           volumeMounts:
             - name: metacpan-server-local
-              mountPath: /app/metacpan_server_local.conf
-              subPath: metacpan_server_local.conf
+              mountPath: /app/metacpan_server_local.yaml
+              subPath: metacpan_server_local.yaml
           env:
             - name: DD_AGENT_HOST
               valueFrom:
@@ -101,8 +101,8 @@ spec:
               memory: "5000Mi"
           volumeMounts:
             - name: metacpan-server-local
-              mountPath: /app/metacpan_server_local.conf
-              subPath: metacpan_server_local.conf
+              mountPath: /app/metacpan_server_local.yaml
+              subPath: metacpan_server_local.yaml
           env:
             - name: DD_AGENT_HOST
               valueFrom:

@@ -1,12 +1,11 @@
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: backpan
+  name: minion-sqlite
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: do-block-storage
   resources:
     requests:
-      storage: 165Gi
+      storage: 1Gi
+  storageClassName: hcloud-volumes

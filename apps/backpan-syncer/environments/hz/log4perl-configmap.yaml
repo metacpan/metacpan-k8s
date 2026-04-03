@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log4perl-hz
+data:
+  log4perl_hz.conf: |
+    log4perl.rootLogger=INFO, OUTPUT
+
+    log4perl.appender.OUTPUT=Log::Log4perl::Appender::Screen
+    log4perl.appender.OUTPUT.stderr=1
+
+    log4perl.appender.OUTPUT.layout=Log::Log4perl::Layout::JSON
+    log4perl.appender.OUTPUT.layout.field.message=%m{chomp}
+    log4perl.appender.OUTPUT.layout.field.level=%p
+    log4perl.appender.OUTPUT.layout.field.category=%c
+    log4perl.appender.OUTPUT.layout.field.url=%X{url}
+    log4perl.appender.OUTPUT.layout.include_mdc=1

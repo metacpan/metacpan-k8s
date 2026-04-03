@@ -1,0 +1,51 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps--web
+images:
+  - name: docker.io/metacpan/metacpan-web
+    newTag: sha-5d11dced2bc38796fe1b8ac42c372b1f0a1b5858
+resources:
+  - namespace.yaml
+  - ingress.yaml
+  - metacpan-web-local-sealedsecret.yaml
+  - log4perl-configmap.yaml
+  - ../../base/
+patches:
+  - target:
+      kind: Deployment
+      name: web
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 1
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          topology.kubernetes.io/zone: fsn1
+      - op: replace
+        path: /spec/template/spec/containers/0/resources
+        value:
+          requests:
+            memory: "2000Mi"
+            cpu: "500m"
+          limits:
+            memory: "4000Mi"
+      - op: add
+        path: /spec/template/spec/containers/0/volumeMounts/-
+        value:
+          name: log4perl-hz
+          mountPath: /app/log4perl_hz.conf
+          subPath: log4perl_hz.conf
+      - op: add
+        path: /spec/template/spec/volumes/-
+        value:
+          name: log4perl-hz
+          configMap:
+            name: log4perl-hz
+  - target:
+      kind: Deployment
+      name: web-search
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 0

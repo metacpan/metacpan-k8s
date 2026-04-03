@@ -1,0 +1,10 @@
+apiVersion: cfke.io/v1beta1
+kind: NodeClass
+metadata:
+  name: default
+spec:
+  hetzner:
+    apiKey:
+      name: metacpan-web-secrets
+      namespace: kube-system
+      key: hetzner

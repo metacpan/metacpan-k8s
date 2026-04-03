@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hz--testsmoke
+  namespace: argocd
+spec:
+  project: testsmoke
+  source:
+    repoURL: https://github.com/metacpan/metacpan-k8s
+    targetRevision: cloudfleet
+    path: apps/test-smoke/environments/hz
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps--testsmoke
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

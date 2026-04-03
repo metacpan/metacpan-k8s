@@ -28,23 +28,15 @@ spec:
             - "-c"
 #            - "while true; do sleep 30; done"
             - "/sbin/run.sh"
-          # This container needs to use fuse so needs privileges
-          securityContext:
-            privileged: true
           volumeMounts:
             - name: backpan
               mountPath: /mnt/backpan
-            - name: backpan-obj-store-cache
-              mountPath: /mnt/backpan-obj-store-cache
             - name: rclone-conf
               mountPath: /root/.config/rclone/
       volumes:
         - name: backpan
           persistentVolumeClaim:
             claimName: backpan
-        - name: backpan-obj-store-cache
-          persistentVolumeClaim:
-            claimName: backpan-obj-store-cache
         - name: rclone-conf
           secret:
             secretName: rclone-conf
