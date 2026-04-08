@@ -1,0 +1,47 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps--backpan-syncer
+resources:
+  - namespace.yaml
+  - rclone-conf-sealedsecret.yaml
+  - restic-b2-backup-sealedsecret.yaml
+  - b2-backup-cronjob.yaml
+  - api-worker-sealedsecret.yaml
+  - cronjob-rbac.yaml
+  - api-cronjobs.yaml
+  - cronjob-wrapper-configmap.yaml
+  - log4perl-configmap.yaml
+  - backpan-fsn1-pvc.yaml
+  - minion-sqlite-pvc.yaml
+  - ../../base/
+images:
+  - name: metacpan/metacpan-backpan-syncer
+    newTag: no-fuse-20260317-205153
+patches:
+  # Delete the base backpan PVC (replaced by backpan-fsn1-pvc.yaml)
+  - target:
+      kind: PersistentVolumeClaim
+      name: backpan
+    patch: |
+      $patch: delete
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: backpan
+  # Deployment: use backpan-fsn1 PVC
+  - target:
+      kind: Deployment
+      name: backpan-syncer
+    patch: |
+      - op: replace
+        path: /spec/template/spec/volumes/0/persistentVolumeClaim/claimName
+        value: backpan-fsn1
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          topology.kubernetes.io/zone: fsn1
+      - op: add
+        path: /spec/template/spec/securityContext
+        value:
+          fsGroup: 100
+  - path: worker-sidecar-patch.yaml

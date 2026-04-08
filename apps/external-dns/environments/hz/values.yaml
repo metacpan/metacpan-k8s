@@ -1,0 +1,34 @@
+provider:
+  name: cloudflare
+
+env:
+  - name: CF_API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: cloudflare-api-token
+        key: api-token
+
+sources:
+  - ingress
+
+policy: upsert-only
+
+registry: txt
+txtOwnerId: hz-external-dns
+txtPrefix: _externaldns.
+
+domainFilters:
+  - metacpan.org
+
+regexDomainFilter: \.hz\.metacpan\.org$
+
+resources:
+  requests:
+    memory: "64Mi"
+  limits:
+    memory: "128Mi"
+
+nodeSelector:
+  topology.kubernetes.io/zone: fsn1
+
+logLevel: info

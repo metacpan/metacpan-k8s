@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./project.yaml
   - ./prod_application.yaml
+  - ./hz_application.yaml

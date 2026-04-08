@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cronjob-wrapper
+data:
+  cronjob-wrapper.sh: |
+    #!/bin/sh
+    set -e
+
+    JOB_NAME="$1"
+    shift
+
+    NAMESPACE="apps--backpan-syncer"
+    DEPLOYMENT="backpan-syncer"
+    CONTAINER="api-worker"
+
+    START_TIME=$(date +%s)
+
+    log_json() {
+      local job_status="$1" reason="$2" detail="$3" exit_code="${4:-0}"
+      local elapsed=$(( $(date +%s) - START_TIME ))
+      printf '{"cronjob":"%s","job_status":"%s","reason":"%s","exit_code":%d,"elapsed_seconds":%d,"detail":"%s"}\n' \
+        "$JOB_NAME" "$job_status" "$reason" "$exit_code" "$elapsed" "$detail"
+    }
+
+    # Check if target pod is ready
+    POD=$(kubectl get pods -n "$NAMESPACE" -l app="$DEPLOYMENT" -o jsonpath='{.items[0].metadata.name}' 2>/dev/null) || true
+    if [ -z "$POD" ]; then
+      log_json "failed" "pod_not_found" "No pod found for deployment/$DEPLOYMENT in $NAMESPACE" 1
+      exit 1
+    fi
+
+    POD_READY=$(kubectl get pod -n "$NAMESPACE" "$POD" -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' 2>/dev/null) || true
+    if [ "$POD_READY" != "True" ]; then
+      POD_PHASE=$(kubectl get pod -n "$NAMESPACE" "$POD" -o jsonpath='{.status.phase}' 2>/dev/null) || true
+      CONTAINER_STATE=$(kubectl get pod -n "$NAMESPACE" "$POD" -o jsonpath='{.status.containerStatuses[?(@.name=="'"$CONTAINER"'")].state}' 2>/dev/null) || true
+      log_json "failed" "pod_not_ready" "Pod $POD phase=$POD_PHASE container_state=$CONTAINER_STATE" 1
+      exit 1
+    fi
+
+    # Run the actual command via kubectl exec
+    STDERR_FILE=$(mktemp)
+    set +e
+    kubectl exec -n "$NAMESPACE" "$POD" -c "$CONTAINER" -- "$@" 2>"$STDERR_FILE"
+    EXIT_CODE=$?
+    set -e
+
+    STDERR_TAIL=$(tail -c 500 "$STDERR_FILE" | tr '\n' ' ' | tr '"' "'")
+    rm -f "$STDERR_FILE"
+
+    if [ "$EXIT_CODE" -eq 0 ]; then
+      log_json "success" "completed" "command finished successfully" 0
+    else
+      log_json "failed" "command_error" "$STDERR_TAIL" "$EXIT_CODE"
+    fi
+
+    exit "$EXIT_CODE"

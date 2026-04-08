@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: apps--grep
+resources:
+  - namespace.yaml
+  - ingress.yaml
+  - ../../base/
+images:
+  - name: metacpan/metacpan-grep-front-end
+    newTag: sha-a5f6e6a852fd52203da5345c279b39a5b6ec9ae0
+patches:
+  - target:
+      kind: PersistentVolumeClaim
+      name: gitrepo-pv
+    patch: |
+      - op: replace
+        path: /spec/storageClassName
+        value: hcloud-volumes
+  - target:
+      kind: Deployment
+      name: grep
+    patch: |
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          topology.kubernetes.io/zone: fsn1

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grep
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    projectcontour.io/response-timeout: "120s"
+spec:
+  ingressClassName: contour
+  tls:
+    - hosts:
+        - grep.hz.metacpan.org
+      secretName: grep-tls
+  rules:
+    - host: grep.hz.metacpan.org
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: grep
+                port:
+                  number: 80
